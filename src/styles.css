@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #fdfdfd;
+}
+
+.table {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+table tbody th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.flex-row {
+  padding: 16px;
+}

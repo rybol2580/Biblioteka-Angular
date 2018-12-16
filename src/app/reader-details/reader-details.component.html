@@ -1,0 +1,129 @@
+<div *ngIf="reader">
+  <form>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Numer karty</label>
+      <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="cardNumber" value="{{reader.cardNumber}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Imię</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputFirstName" value="{{reader.firstName}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Nazwisko</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputLastName" value="{{reader.lastName}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Pesel</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputPesel" value="{{reader.pesel}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Data urodzenia</label>
+      <div class="col-sm-10">
+        <input readonly type="date" class="form-control-plaintext" id="inputBirthday" value="{{reader.birthday}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Telefon</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputPhone" value="{{reader.phone}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input readonly type="email" class="form-control-plaintext" id="inputEmail" value="{{reader.email}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Miasto</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputCity" value="{{reader.city}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Ulica</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputStreet" value="{{reader.street}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Numer bloku</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputStreetNumber" value="{{reader.streetNumber}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Numer mieszkania</label>
+      <div class="col-sm-10">
+        <input readonly class="form-control-plaintext" id="inputFlatNumber" value="{{reader.flatNumber}}">
+      </div>
+    </div>
+  </form>
+  Status: {{status}}
+  <button type="button"
+          data-toggle="modal"
+          data-target="#editReaderModal">
+    Edit
+  </button>
+</div>
+<div *ngIf="status=='200'">
+  <h2>
+    WSZYSTKO GIT!
+  </h2>
+</div>
+
+<!-- Modal Dialog -->
+<div *ngIf="reader">
+  <div class="modal fade" id="editReaderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input [(ngModel)]="reader.lastName" type="text" class="form-control-plaintext" id="staticEmail" value="{{reader.lastName}}">
+              </div>
+              <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input [(ngModel)]="reader.lastName" type="text" class="form-control-plaintext" id="staticEmail" value="{{reader.lastName}}">
+              </div>
+              <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+              <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+          <button type="button"
+                  class="btn btn-primary"
+                  (click)="save(reader)">
+            Zapisz
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

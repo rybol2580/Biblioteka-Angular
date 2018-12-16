@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\node_modules\\bootstrap",
+    "\\node_modules\\bootstrap\\dist",
+    "\\node_modules\\bootstrap\\dist\\css",
+    "\\node_modules\\bootstrap\\js",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\entities",
+    "\\src\\app\\reader-details",
+    "\\src\\app\\readers-report"
+  ],
+  "SelectedNode": "\\package.json",
+  "PreviewInSolutionExplorer": false
+}
