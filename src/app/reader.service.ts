@@ -19,8 +19,8 @@ export class ReaderService {
     private http: HttpClient) { }
 
   /** Get readers from server */
-  getReaders(): Observable<Reader[]> {
-    return this.http.get<Reader[]>(this.readersUrl);
+  getReaders(): Observable<HttpResponse<Reader[]>> {
+    return this.http.get<Reader[]>(this.readersUrl, { observe: 'response' });
   }
 
   /** Get readers from server */
