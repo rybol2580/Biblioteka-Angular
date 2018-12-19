@@ -119,7 +119,7 @@
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
                   <label class="control-label">Imię</label>
-                  <input type="text" class="form-control" formControlName="firstName" value="{{reader.firstName}}">
+                  <input type="text" class="form-control" minlength="4" formControlName="firstName" value="{{reader.firstName}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
                   <label class="control-label">Nazwisko</label>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
                   <label class="control-label">Data urodzin</label>
-                  <input type="text" class="form-control" formControlName="birthday" value="{{reader.birthday}}">
+                  <input type="date" class="form-control" formControlName="birthday" value="{{reader.birthday}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
                   <label class="control-label">Telefon</label>
@@ -159,7 +159,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                    <button id="save" type="submit" class="btn btn-primary">Zapisz</button>
                 </div>
               </form>
             </div>

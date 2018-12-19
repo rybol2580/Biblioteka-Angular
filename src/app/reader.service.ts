@@ -6,7 +6,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Reader } from './entities/reader';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({'Content-Type':'application/json'}),
+  observe: 'response'
 };
 
 @Injectable({
@@ -25,7 +26,6 @@ export class ReaderService {
 
   /** Get readers from server */
   getReader(id: number): Observable<HttpResponse<Reader>> {
-    console.log(`id w getReader: ${ id }`)
     const url = `${this.readersUrl}/${id}`;
 
     return this.http.get<Reader>(url, { observe: 'response' });
@@ -41,11 +41,17 @@ export class ReaderService {
 
 
   /** Update the reader on the server */
-  updateReader(reader: Reader): Observable<any> {
+  updateReader(reader: Reader): Observable<HttpResponse<Reader>> {
+    return this.http.put<Reader>(this.readersUrl, reader, {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'});
+  }
+
+  /* 
+    updateReader(reader: Reader): Observable<any> {
     return this.http.put(this.readersUrl, reader, httpOptions).pipe(
       catchError(this.handleError<any>('updateReader'))
     );
   }
+  */
 
   /**
    * Handle Http operation that failed.

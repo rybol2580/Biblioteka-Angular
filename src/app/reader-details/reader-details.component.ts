@@ -1,12 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
+declare var $ : any;
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorMessage} from "ng-bootstrap-form-validation";
+import { ToastrService } from 'ngx-toastr';
 
 import { Reader } from '../entities/reader';
 import { ReaderService } from '../reader.service';
 import { first } from 'rxjs/operators';
+import { AngularFontAwesomeComponent } from 'angular-font-awesome';
 
 @Component({
   selector: 'app-reader-details',
@@ -27,14 +30,18 @@ export class ReaderDetailsComponent implements OnInit {
       error: 'pattern',
       format: (label, error) => `${label.toUpperCase()} DOESN'T LOOK RIGHT...`
     }, {
-      error: 'MinLengthValidator',
+      error: 'minlength',
       format: (label, error) => `${label.toUpperCase()} za krótkie!`
+    }, {
+      error: 'maxlength',
+      format: (label, error) => `${label.toUpperCase()} za dlugie!`
     }
   ];
 
   constructor(
     private route: ActivatedRoute,
-    private readerService: ReaderService
+    private readerService: ReaderService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -50,10 +57,12 @@ export class ReaderDetailsComponent implements OnInit {
         //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
       firstName: new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.minLength(4)
       ]),
       lastName: new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.maxLength(10)
       ]),
       pesel: new FormControl('', [
         Validators.required
@@ -143,10 +152,17 @@ export class ReaderDetailsComponent implements OnInit {
   }
 
   readerUpdate(): void {
-    //console.log(this.formGroup.value);
     this.reader = this.formGroup.value;
+    //console.log('pierwszy click');
     this.readerService.updateReader(this.reader)
-      .subscribe();
+      .subscribe(resp => {
+          $("#editReaderModal").modal('toggle');
+          this.toastr.success('Zmiany zostały zapisane pomyślnie!');
+        
+      }, error => {
+        console.log('blad aktualizacji danych');
+        console.log(error);
+      });
   }
 
 }
