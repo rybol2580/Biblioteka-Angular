@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReadersReportComponent } from './readers-report/readers-report.component';
 import { BooksReportComponent } from './books-report/books-report.component';
 import { ReaderDetailsComponent } from './reader-details/reader-details.component';
+import { AddReaderModalComponent } from './add-reader-modal/add-reader-modal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/readers', pathMatch: 'full' },
@@ -13,7 +14,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

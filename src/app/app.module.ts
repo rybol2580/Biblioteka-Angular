@@ -14,7 +14,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ReadersReportComponent } from './readers-report/readers-report.component';
 import { BooksReportComponent } from './books-report/books-report.component';
 import { ReaderDetailsComponent } from './reader-details/reader-details.component';
-import { TestWalidacjiComponent } from './test-walidacji/test-walidacji.component';
+import { AddReaderModalComponent } from './add-reader-modal/add-reader-modal.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TestWalidacjiComponent } from './test-walidacji/test-walidacji.componen
     ReadersReportComponent,
     BooksReportComponent,
     ReaderDetailsComponent,
-    TestWalidacjiComponent
+    AddReaderModalComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,31 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { Reader } from '../entities/reader';
-import { ReaderService } from '../reader.service';
-import { ReportService } from '../report.service';
-import * as $ from 'jquery';
-import { Router, Route } from '@angular/router';
-
-// dodane
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+//import * as $ from 'jquery';
 declare var $ : any;
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorMessage} from "ng-bootstrap-form-validation";
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
-declare var $: any;
+import { Reader } from '../entities/reader';
+import { ReaderService } from '../reader.service';
+import { ReadersReportComponent } from '../readers-report/readers-report.component';
 
 @Component({
-  selector: 'app-readers-report',
-  templateUrl: './readers-report.component.html',
-  styleUrls: ['./readers-report.component.css']
+  selector: 'app-add-reader-modal',
+  templateUrl: './add-reader-modal.component.html',
+  styleUrls: ['./add-reader-modal.component.css']
 })
-export class ReadersReportComponent implements OnInit {
-  readers: Reader[];
+export class AddReaderModalComponent implements OnInit {
   formGroup: FormGroup;
   headers: any;
   status: any;
-  
+
+  readersReport: ReadersReportComponent;
+
   customErrorMessages: ErrorMessage[] = [
     {
       error: 'required',
@@ -43,19 +41,15 @@ export class ReadersReportComponent implements OnInit {
   ];
 
   constructor(
-    private readerService: ReaderService,
-    private reportService: ReportService,
-    private router: Router,
     private route: ActivatedRoute,
     private location: Location,
+    private router: Router,
+    private readerService: ReaderService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit() {
-    $("#connection-refused-err").show();
-    console.log('READERS REPORT');
-    this.getReaders();
-
+    // Definicja form groups
     this.formGroup = new FormGroup({
       cardNumber: new FormControl('', [
         //Validators.required,
@@ -105,30 +99,12 @@ export class ReadersReportComponent implements OnInit {
     });
   }
 
-  // getReaders(): void {
-  //   this.readerService.getReaders()
-  //     .subscribe(readers => this.readers = readers);
-  // }
-
-  getReaders(): void {
-    this.readerService.getReaders()
-      .subscribe(resp => {
-        //$("#connection-refused-err").hide();
-        this.readers = resp.body;
-      }, error => {
-        //console.log($("#connection-refused-err").show());
-        console.log(error);
-      });
-  }
-
   createReader(): void {
-    console.log('createReader test');
     this.readerService.createReader(this.formGroup.value)
       .subscribe(resp => {
         $("#createReaderModal").modal('toggle');
         this.toastr.success('Nowy czytelnik został dodany pomyślnie!');
-        //this.readers.push(this.formGroup.value);
-        this.ngOnInit();
+        
       }, error => {
         console.log(error);
         console.log('blad aktualizacji danych');
@@ -136,30 +112,7 @@ export class ReadersReportComponent implements OnInit {
       });
   }
 
-  test(): void {
-    // this.readerService.downloadReport()
-    //   .subscribe(resp => {
-    //     //$("#connection-refused-err").hide();
-    //     console.log('pobieranie - sukces');
-    //     console.log(resp);
-    //   }, error => {
-    //     //console.log($("#connection-refused-err").show());
-    //     console.log('pobieranie - blad');
-    //     console.log(error);
-    //     console.log(error.body);
-    //   });
+  cancelClick(): void {
+    console.log('zamknij kliknieto');
   }
-
-  public showPDF(): void {
-    this.reportService.getPDF()
-        .subscribe((data) => {
-          var blob = new Blob([data], {type: 'application/pdf'});
-        
-          var downloadURL = window.URL.createObjectURL(data);
-          var link = document.createElement('a');
-          link.href = downloadURL;
-          link.download = "help.pdf";
-          link.click();
-        });
-}
 }

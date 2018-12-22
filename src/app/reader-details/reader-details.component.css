@@ -34,3 +34,6 @@
     padding: 16px;
 }
 
+label.control-label {
+    font-weight: 700;
+}

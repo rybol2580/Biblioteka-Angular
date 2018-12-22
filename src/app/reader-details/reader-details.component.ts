@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 //import * as $ from 'jquery';
 declare var $ : any;
@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { Reader } from '../entities/reader';
 import { ReaderService } from '../reader.service';
+import { Location } from '@angular/common';
 import { first } from 'rxjs/operators';
 import { AngularFontAwesomeComponent } from 'angular-font-awesome';
 
@@ -41,7 +42,8 @@ export class ReaderDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private readerService: ReaderService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -58,11 +60,11 @@ export class ReaderDetailsComponent implements OnInit {
       ]),
       firstName: new FormControl('', [
         Validators.required,
-        Validators.minLength(4)
+        //Validators.minLength(4)
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.maxLength(10)
+        //Validators.maxLength(10)
       ]),
       pesel: new FormControl('', [
         Validators.required
@@ -131,37 +133,35 @@ export class ReaderDetailsComponent implements OnInit {
     this.formGroup.get('flatNumber').setValue(this.reader.flatNumber);
   }
 
-  /*assignItemsToReader(): Reader {
-    this.reader. = this.formGroup.get('cardNumber');
-    this.reader. = this.formGroup.get('firstName');
-    this.reader. = this.formGroup.get('lastName');
-    this.reader. = this.formGroup.get('pesel');
-    this.reader. = this.formGroup.get('birthday');
-    this.reader. = this.formGroup.get('phone');
-    this.reader. = this.formGroup.get('email');
-    this.reader. = this.formGroup.get('city');
-    this.reader. = this.formGroup.get('street');
-    this.reader. = this.formGroup.get('streetNumber');
-    this.reader. = this.formGroup.get('flatNumber');
-  }*/
-
-  save(reader: Reader): void {
-    console.log(`${reader.lastName}`);
-    this.readerService.updateReader(reader)
-      .subscribe();
-  }
+  // save(reader: Reader): void {
+  //   //console.log(`${reader.lastName}`);
+  //   this.readerService.updateReader(reader)
+  //     .subscribe();
+  // }
 
   readerUpdate(): void {
-    this.reader = this.formGroup.value;
-    //console.log('pierwszy click');
-    this.readerService.updateReader(this.reader)
+    //this.reader = this.formGroup.value;
+    //console.log(this.formGroup.value);
+    this.readerService.updateReader(this.formGroup.value)
       .subscribe(resp => {
-          $("#editReaderModal").modal('toggle');
-          this.toastr.success('Zmiany zostały zapisane pomyślnie!');
-        
+        $("#editReaderModal").modal('toggle');
+        this.toastr.success('Zmiany zostały zapisane pomyślnie!');
+        this.reader = this.formGroup.value;
       }, error => {
         console.log('blad aktualizacji danych');
-        console.log(error);
+        //console.log(error);
+      });
+  }
+
+  deleteReader(): void {
+    this.reader.readerId = 200;
+    this.readerService.deleteReader(this.reader)
+      .subscribe(resp => {
+        this.location.back();
+        this.toastr.success('Czytelnik został usunięty pomyślnie!');
+      }, error => {
+        this.toastr.error('Usuwanie czytelnika nie powiodło się. Spróbuj ponownie.');
+        //console.log(error);
       });
   }
 

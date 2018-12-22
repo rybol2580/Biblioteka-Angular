@@ -38,11 +38,25 @@ export class ReaderService {
     return this.http.get<Reader>(url);
   }*/
 
+  /** Insert readers on the server */
+  createReader(reader: Reader): Observable<HttpResponse<Reader>> {
+    return this.http.post<Reader>(this.readersUrl, reader, { observe: 'response' });
+  }
 
 
   /** Update the reader on the server */
   updateReader(reader: Reader): Observable<HttpResponse<Reader>> {
-    return this.http.put<Reader>(this.readersUrl, reader, {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'});
+    return this.http.put<Reader>(
+                                  this.readersUrl, 
+                                  reader, 
+                                  {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'});
+  }
+
+  deleteReader(reader: Reader): Observable<HttpResponse<Reader>> {
+    const url = `${this.readersUrl}/${reader.readerId}`;
+
+    return this.http.delete<Reader>(url,
+                                    {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'})
   }
 
   /* 
