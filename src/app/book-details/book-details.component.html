@@ -1,21 +1,22 @@
-<app-loading-spinner *ngIf="!reader">
+<app-loading-spinner *ngIf="!book">
 </app-loading-spinner>
-<div *ngIf="reader">
+<div *ngIf="book">
   <div class="t-Region">
     <div class="t-Region-header">
       <div class="t-Region-headerItems--title">
-        Szczegóły czytelnika
+        Szczegóły książki
       </div>
       <div class="t-Region-headerItems--button">
-        <button type="button" 
+        <button *ngIf="bookCopies"
+                type="button" 
                 class="btn btn-secondary"
-                (click)="deleteReader()">
+                (click)="deleteBook()">
           <fa name="trash"></fa> Usuń
         </button>
         <button type="button" 
                 class="btn btn-primary"
                 data-toggle="modal"
-                data-target="#editReaderModal">
+                data-target="#editBookModal">
             <fa name="edit"></fa> Edytuj
         </button>
       </div>
@@ -23,81 +24,77 @@
     <div class=t-Region-body>
       <form>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Numer karty</label>
+          <label class="col-sm-2 col-form-label">ISBN</label>
           <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="cardNumber" value="{{reader.cardNumber}}" disabled>
+            <input type="text" readonly class="form-control-plaintext" id="cardNumber" value="{{book.isbn}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Imię</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Tytuł (PL)</label>
           <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputFirstName" value="{{reader.firstName}}" disabled>
+            <input readonly class="form-control-plaintext" id="inputFirstName" value="{{book.titlePL}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Nazwisko</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Tytuł (EN)</label>
           <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputLastName" value="{{reader.lastName}}" disabled>
+            <input readonly class="form-control-plaintext" id="inputLastName" value="{{book.titleEn}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Pesel</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Autor</label>
           <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputPesel" value="{{reader.pesel}}" disabled>
+            <input readonly class="form-control-plaintext" id="inputPesel" value="{{book.author}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Data urodzenia</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Opis</label>
           <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputBirthday" value="{{reader.birthday}}" disabled>
+            <input readonly class="form-control-plaintext" id="inputBirthday" value="{{book.description}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Telefon</label>
+            <label for="inputPassword" class="col-sm-2 col-form-label">Gatunek</label>
+            <div class="col-sm-10">
+              <input readonly class="form-control-plaintext" id="inputStreetNumber" value="{{book.genreName}}" disabled>
+            </div>
+          </div>
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Wydawnictwo</label>
           <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputPhone" value="{{reader.phone}}" disabled>
+            <input readonly class="form-control-plaintext" id="inputPhone" value="{{book.publisherName}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Email</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Numer wydania</label>
           <div class="col-sm-10">
-            <input readonly type="email" class="form-control-plaintext" id="inputEmail" value="{{reader.email}}" disabled>
+            <input readonly type="email" class="form-control-plaintext" id="inputEmail" value="{{book.editionNumber}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Miasto</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Data wydania</label>
           <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputCity" value="{{reader.city}}" disabled>
+            <input readonly class="form-control-plaintext" id="inputCity" value="{{book.editionDate}}" disabled>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Ulica</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Miejsce wydania</label>
           <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputStreet" value="{{reader.street}}" disabled>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Numer bloku</label>
-          <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputStreetNumber" value="{{reader.streetNumber}}" disabled>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Numer mieszkania</label>
-          <div class="col-sm-10">
-            <input readonly class="form-control-plaintext" id="inputFlatNumber" value="{{reader.flatNumber}}" disabled>
+            <input readonly class="form-control-plaintext" id="inputStreet" value="{{book.editionPlace}}" disabled>
           </div>
         </div>
       </form>
   </div>
 </div>
+<app-book-copies [bookId]="book.bookId"></app-book-copies>
 
-<div *ngIf="reader">
-  <div class="modal fade" id="editReaderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- Edit book - Modal -->
+<div *ngIf="book">
+  <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Edycja czytelnika</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Edycja książki</h5>
           <button type="button" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             <!-- <fa name="remove"></fa> -->
@@ -106,50 +103,46 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
-              <form [formGroup]="formGroup" (validSubmit)="readerUpdate()">
+              <form [formGroup]="formGroup" (validSubmit)="bookUpdate()">
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Numer karty</label>
-                  <input type="text" class="form-control-plaintext" formControlName="cardNumber" value="{{reader.cardNumber}}" disabled>
+                  <label class="control-label">ISBN</label>
+                  <input type="text" class="form-control-plaintext" formControlName="isbn" value="{{book.isbn}}" disabled>
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Imię</label>
-                  <input type="text" class="form-control" formControlName="firstName" value="{{reader.firstName}}">
+                  <label class="control-label">Tytuł (PL)</label>
+                  <input type="text" class="form-control" formControlName="titlePL" value="{{book.titlePL}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Nazwisko</label>
-                  <input type="text" class="form-control" formControlName="lastName" value="{{reader.lastName}}">
+                  <label class="control-label">Tytuł (EN)</label>
+                  <input type="text" class="form-control" formControlName="titleEn" value="{{book.titleEn}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Pesel</label>
-                  <input type="text" class="form-control" formControlName="pesel" value="{{reader.pesel}}">
+                  <label class="control-label">Autor</label>
+                  <input type="text" class="form-control" formControlName="author" value="{{book.author}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Data urodzin</label>
-                  <input type="date" class="form-control" formControlName="birthday" value="{{reader.birthday}}">
+                  <label class="control-label">Opis</label>
+                  <input type="text" class="form-control" formControlName="description" value="{{book.description}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Telefon</label>
-                  <input type="text" class="form-control" formControlName="phone" value="{{reader.phone}}">
+                  <label class="control-label">Gatunek</label>
+                  <input type="text" class="form-control" formControlName="genreName" value="{{book.genreName}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Email</label>
-                  <input type="email" class="form-control" formControlName="email" value="{{reader.email}}">
+                  <label class="control-label">Wydawnictwo</label>
+                  <input type="text" class="form-control" formControlName="publisherName" value="{{book.publisherName}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Miasto</label>
-                  <input type="text" class="form-control" formControlName="city" value="{{reader.city}}">
+                  <label class="control-label">Numer wydania</label>
+                  <input type="text" class="form-control" formControlName="editionNumber" value="{{book.editionNumber}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Ulica</label>
-                  <input type="text" class="form-control" formControlName="street" value="{{reader.street}}">
+                  <label class="control-label">Data wydania</label>
+                  <input type="date" class="form-control" formControlName="editionDate" value="{{book.editionDate}}">
                 </div>
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Numer bloku</label>
-                  <input type="text" class="form-control" formControlName="streetNumber" value="{{reader.streetNumber}}">
-                </div>
-                <div class="form-group" [customErrorMessages]="customErrorMessages">
-                  <label class="control-label">Numer mieszkania</label>
-                  <input type="text" class="form-control" formControlName="flatNumber" value="{{reader.flatNumber}}">
+                  <label class="control-label">Miejsce wydania</label>
+                  <input type="text" class="form-control" formControlName="editionPlace" value="{{book.editionPlace}}">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
@@ -165,7 +158,6 @@
     </div>
   </div>
 </div>
-  
 
 <!--
 <div class="form-group row">

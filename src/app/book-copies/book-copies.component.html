@@ -1,0 +1,91 @@
+<div class="bookcopies-report-container">
+  <!-- <div *ngIf="bookCopies"> -->
+    <div class="t-Region">
+      <div class="t-Region-header">
+        <div class="t-Region-headerItems--title">
+          Lista egzemplarzy książki
+        </div>
+        <div class="t-Region-headerItems--button">
+          <button type="button" 
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#createBookCopyModal">
+            <fa name="plus"></fa> Dodaj
+          </button>
+        </div>
+      </div>
+      <div class=t-Region-body>
+        <div class="book-copies-report-container-inner">
+          <div class="table-responsive">
+            <table id="bookTable" class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Numer egzemplarza</th>
+                  <th scope="col">Lokalizacja</th>
+                  <th scope="col">Opis</th>
+                  <th scope="col">Dostępność</th>
+                  <th scope="col">Wypożyczanie</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let bookCopy of bookCopies">
+                  <th>
+                    <a routerLink="/books/{{book.bookId}}" title="Wyświetl szczegóły">
+                      <fa name="search"></fa>
+                    </a>
+                  </th>
+                  <td>{{bookCopy.copyNumber}}</td>
+                  <td>{{bookCopy.location}}</td>
+                  <td>{{bookCopy.description}}</td>
+                  <td>{{bookCopy.availability}}</td>
+                  <td>Wypożycz</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</div>
+
+<!-- Add new book copy modal-->
+<div class="modal fade" id="createBookCopyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Dodawanie egzemplarza książki</h5>
+        <button type="button" sclass="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form [formGroup]="formGroup" (validSubmit)="createBookCopy()">
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Numer egzemplarza</label>
+                <input type="text" class="form-control" formControlName="copyNumber">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Lokalizacja</label>
+                <input type="text" class="form-control" formControlName="location">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Opis</label>
+                <input type="text" class="form-control" formControlName="description">
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
+                  <button type="submit" class="btn btn-primary" >
+                      <fa name="save"></fa> Zapisz
+                  </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,4 @@
-<app-loading-spinner *ngIf="!readers">
-  </app-loading-spinner>
+<app-loading-spinner *ngIf="!readers"></app-loading-spinner>
 <div class="readers-report-container">
   <div *ngIf="readers">
     <div class="t-Region">
@@ -51,7 +50,10 @@
     </div>
   </div>
 </div>
+<!-- To nizej to srednie podejscie jest -->
 <button (click)="showPDF()">KLIKNIJ</button>
+<a href="http://localhost:8080/api/report" target="_blank"><button>KLIKNIJ ABY OTWORZYĆ RAPORT</button></a>
+<!-- To wyzej otwiera od razu raport-->
 
 <!-- <app-add-reader-modal></app-add-reader-modal> -->
 <div class="modal fade" id="createReaderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

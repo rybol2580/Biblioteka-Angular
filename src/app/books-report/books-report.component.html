@@ -1,3 +1,171 @@
-<p>
-  books-report works!
-</p>
+<app-loading-spinner *ngIf="!books"></app-loading-spinner>
+<div class="books-report-container">
+  <div *ngIf="books">
+    <div class="t-Region">
+      <div class="t-Region-header">
+        <div class="t-Region-headerItems--title">
+          Lista książek
+        </div>
+        <div class="t-Region-headerItems--button">
+          <button type="button" 
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#createBookModal">
+            <fa name="plus"></fa> Dodaj
+          </button>
+        </div>
+      </div>
+      <div class=t-Region-body>
+        <div class="books-report-container-inner">
+          <div class="table-responsive">
+            <table id="bookTable" class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">ISBN</th>
+                  <th scope="col">Tytuł</th>
+                  <th scope="col">Autor</th>
+                  <th scope="col">Opis</th>
+                  <th scope="col">Wydawnictwo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let book of books">
+                  <th>
+                    <a routerLink="/books/{{book.bookId}}" title="Wyświetl szczegóły">
+                      <fa name="search"></fa>
+                    </a>
+                  </th>
+                  <td>{{book.isbn}}</td>
+                  <td>
+                    {{book.titlePL}}
+                    <span *ngIf="book.titleEn">
+                      ({{book.titleEn}})
+                    </span>
+                  </td>
+                  <td>{{book.author}}</td>
+                  <td>{{book.description}}</td>
+                  <td>{{book.publisherName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- To nizej to srednie podejscie jest -->
+<button (click)="showPDF()">KLIKNIJ</button>
+<a href="http://localhost:8080/api/report" target="_blank"><button>KLIKNIJ ABY OTWORZYĆ RAPORT</button></a>
+<!-- To wyzej otwiera od razu raport-->
+
+<!-- Modal -->
+<div class="modal fade" id="createBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Dodawanie książki</h5>
+        <button type="button" sclass="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form [formGroup]="formGroup" (validSubmit)="createBook()">
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">ISBN</label>
+                <input type="text" class="form-control" formControlName="isbn">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Tytuł (PL)</label>
+                <input type="text" class="form-control" formControlName="titlePL">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Tytuł (EN)</label>
+                <input type="text" class="form-control" minlength="4" formControlName="titleEn">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Autor</label>
+                <input type="text" class="form-control" formControlName="author">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Opis</label>
+                <input type="text" class="form-control" formControlName="description">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Numer wydania</label>
+                <input type="text" class="form-control" formControlName="editionNumber">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Data wydania</label>
+                <input type="date" class="form-control" formControlName="editionDate">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Miejsce wydania</label>
+                <input type="email" class="form-control" formControlName="editionPlace">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Gatunek</label>
+                <input type="text" class="form-control" formControlName="genreName">
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Wydawca</label>
+                <input type="text" class="form-control" formControlName="publisherName">
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
+                  <button type="submit" class="btn btn-primary" >
+                      <fa name="save"></fa> Zapisz
+                  </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPINNER DO ŁADOWANIA DANYCH
+  <div id="connection-refused-err">
+  teste
+  <fa name="spinner" animation="spin"></fa>
+</div> -->
+
+<!-- Modal Dialog RACZEJ DO WYWALENIA NA TEJ STRONIE
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{reader.lastName}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        <button type="button" class="btn btn-primary">Zapisz</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+</div>-->

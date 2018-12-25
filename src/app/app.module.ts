@@ -16,6 +16,8 @@ import { BooksReportComponent } from './books-report/books-report.component';
 import { ReaderDetailsComponent } from './reader-details/reader-details.component';
 import { AddReaderModalComponent } from './add-reader-modal/add-reader-modal.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
+import { BookCopiesComponent } from './book-copies/book-copies.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     BooksReportComponent,
     ReaderDetailsComponent,
     AddReaderModalComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    BookDetailsComponent,
+    BookCopiesComponent
   ],
   imports: [
     BrowserModule,

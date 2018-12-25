@@ -154,7 +154,6 @@ export class ReaderDetailsComponent implements OnInit {
   }
 
   deleteReader(): void {
-    this.reader.readerId = 200;
     this.readerService.deleteReader(this.reader)
       .subscribe(resp => {
         this.location.back();

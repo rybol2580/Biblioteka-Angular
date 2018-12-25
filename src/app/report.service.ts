@@ -11,8 +11,8 @@ export class ReportService {
     private http: HttpClient
   ) { }
 
-  public getPDF(): Observable<Blob> {   
+  public getPDF(): Observable<HttpResponse<Blob>> {   
       let url = 'http://localhost:8080/api/report';
-      return this.http.get(url, { responseType: 'blob' });
+      return this.http.get(url, { responseType: 'blob', observe: 'response' });
     }
 }
