@@ -21,8 +21,6 @@ export class BookDetailsComponent implements OnInit {
   book: Book;
   bookCopies: any;
   formGroup: FormGroup;
-  headers: any;
-  status: any;
 
   customErrorMessages: ErrorMessage[] = [
     {
@@ -88,11 +86,6 @@ export class BookDetailsComponent implements OnInit {
       publisherName: new FormControl('', [
         //Validators.required
       ]),
-      // first: new FormControl('', [
-      //   Validators.required,
-      //   Validators.minLength(8),
-      //   Validators.maxLength(20)
-      // ])
     });
   }
 
@@ -138,7 +131,7 @@ export class BookDetailsComponent implements OnInit {
   deleteBook(): void {
     this.bookService.deleteBook(this.book)
       .subscribe(resp => {
-        //this.location.back();
+        this.location.back();
         this.toastr.success('Książka została usunięta pomyślnie!');
       }, error => {
         this.toastr.error('Usuwanie książki nie powiodło się. Spróbuj ponownie.');

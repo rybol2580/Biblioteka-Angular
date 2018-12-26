@@ -14,7 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 export class BookCopiesComponent implements OnInit {
   @Input() bookId: number;
   bookCopies: BookCopy[];
-  formGroup: FormGroup;
+  bookCopyDetailsForm: FormGroup;
+  bookCopyBorrowForm: FormGroup;
+  bookCopy: BookCopy;
 
   customErrorMessages: ErrorMessage[] = [
     {
@@ -40,10 +42,31 @@ export class BookCopiesComponent implements OnInit {
   ngOnInit() {
     this.getBookCopies();
 
-    this.formGroup = new FormGroup({
-      // bookCopyId: new FormControl('', [
-      //   Validators.required
-      // ]),
+    this.bookCopyDetailsForm = new FormGroup({
+      bookCopyId: new FormControl('', [
+      ]),
+      copyNumber: new FormControl('', [
+        Validators.required,
+        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+      ]),
+      location: new FormControl('', [
+        Validators.required,
+        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+      ]),
+      description: new FormControl('', [
+        //Validators.required,
+        //Validators.minLength(5)
+      ]),
+      bookId: new FormControl('', [
+        //Validators.required,
+        //Validators.minLength(4)
+      ]),
+    });
+
+    this.bookCopyBorrowForm = new FormGroup({
+      bookCopyId: new FormControl('', [
+        //Validators.required
+      ]),
       copyNumber: new FormControl('', [
         Validators.required,
         //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
@@ -63,10 +86,20 @@ export class BookCopiesComponent implements OnInit {
     });
   }
 
+  setBookCopyItemsValue(): void {
+    this.bookCopyDetailsForm.get('bookCopyId').setValue(this.bookCopy.bookCopyId);
+    this.bookCopyDetailsForm.get('copyNumber').setValue(this.bookCopy.copyNumber);
+    this.bookCopyDetailsForm.get('location').setValue(this.bookCopy.location);
+    this.bookCopyDetailsForm.get('description').setValue(this.bookCopy.description);
+    this.bookCopyDetailsForm.get('bookId').setValue(this.bookCopy.bookId);
+    this.bookCopyDetailsForm.get('isAvailable').setValue(this.bookCopy.isAvailable);
+  }
+
   getBookCopies(): void {
     this.bookCopyService.getBookCopies()
       .subscribe(resp => {
         this.bookCopies = resp.body;
+        console.log(this.bookCopies);
       }, error => {
         //console.log($("#connection-refused-err").show());
         console.log(error);
@@ -74,31 +107,48 @@ export class BookCopiesComponent implements OnInit {
   }
 
   createBookCopy(): void { 
-    this.formGroup.get('bookId').setValue(this.bookId);
-    console.log('CREATE BOOK COPy: ' + JSON.stringify(this.formGroup.value));
-    this.bookCopyService.createBookCopy(this.formGroup.value)
+    this.bookCopyDetailsForm.get('bookId').setValue(this.bookId);
+    //console.log('CREATE BOOK COPy: ' + JSON.stringify(this.formGroup.value));
+    console.log('createbookcopy');
+    this.bookCopyService.createBookCopy(this.bookCopyDetailsForm.value)
       .subscribe(resp => {
         $("#createBookCopyModal").modal('toggle');
         this.toastr.success('Nowy egzemplarz został dodany pomyślnie!');
+        this.bookCopyDetailsForm.reset();
         this.getBookCopies();
       }, error => {
         this.toastr.error('Dodawanie egzemplarza nie powiodło się. Spróbuj ponownie.')
     });
   }
 
-  // waitForBookId() {
-  //   if(this.bookId == null){
-  //     console.log(this.bookId);
-  //     setTimeout(this.waitForBookId, 5000);
-  //   }
-  //   else {
-  //     this.bookService.getSelectedBookId$.subscribe((data) => {
-  //       console.log("DATA BOOKCOPY " + data);
-  //       this.bookId = data;
-  //       }
-  //     );
-  //     console.log('BOOK COPY -> BOOK ID: ' + this.bookId);
-  //   }
-  // }
+  getBookCopy(id: number): void {
+    this.bookCopyService.getBookCopy(id)
+      .subscribe(resp => {
+        //console.log(resp.body);
+        this.bookCopy = resp.body;
+        this.setBookCopyItemsValue();
+      }, error => {
+        console.log(error);
+      });
+  }
 
+  updateBookCopy(): void {
+    this.bookCopyService.updateBookCopy(this.bookCopyDetailsForm.value)
+      .subscribe(resp => {
+        $("#editBookCopyModal").modal('toggle');
+        this.toastr.success('Zmiany zostały zapisane pomyślnie!');
+        this.bookCopyDetailsForm.reset();
+        this.getBookCopies();
+      }, error => {
+        this.toastr.error('Zapisanie zmian nie powiodło się. Spróbuj ponownie.');
+      });
+  }
+
+  setBorrowDetails(id: number, copyNumber: string) {
+    this.bookCopyBorrowForm.get('bookCopyId').setValue(id);
+    this.bookCopyBorrowForm.get('copyNumber').setValue(copyNumber);
+    //this.bookCopy.copyNumber = copyNumber;
+
+    console.log(id + ' oraz copy number ' + copyNumber);
+  }
 }
