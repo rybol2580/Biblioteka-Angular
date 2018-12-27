@@ -7,8 +7,22 @@
           Lista książek
         </div>
         <div class="t-Region-headerItems--button">
+          <!-- <button type="button" 
+                  class="btn btn-primary"
+                  routerLink="/booksFromNL"
+                  (click)="onCreateFromNLClick()"
+                  data-toggle="modal"
+                  data-target="#createBookFromNLModal">
+            <fa name="plus"></fa> Dodaj z Biblioteki Narodowej
+          </button> -->
           <button type="button" 
                   class="btn btn-primary"
+                  routerLink="/booksFromNL">
+            <fa name="plus"></fa> Dodaj z Biblioteki Narodowej
+          </button>
+          <button type="button" 
+                  class="btn btn-primary"
+                  (click)="onAddClick()"
                   data-toggle="modal"
                   data-target="#createBookModal">
             <fa name="plus"></fa> Dodaj
@@ -84,7 +98,7 @@
               </div>
               <div class="form-group" [customErrorMessages]="customErrorMessages">
                 <label class="control-label">Tytuł (EN)</label>
-                <input type="text" class="form-control" minlength="4" formControlName="titleEn">
+                <input type="text" class="form-control" formControlName="titleEn">
               </div>
               <div class="form-group" [customErrorMessages]="customErrorMessages">
                 <label class="control-label">Autor</label>
@@ -127,6 +141,127 @@
     </div>
   </div>
 </div>
+
+<!-- Modal from NL-->
+<div class="modal fade" id="createBookFromNLModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Dodawanie książki z Biblioteki Narodowej</h5>
+          <button type="button" sclass="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="searchBody" class="row">
+            <div class="col-md-12">
+              <form [formGroup]="searchFormGroup" (validSubmit)="searchBookInNL()">
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">ISBN/ISSN</label>
+                  <input type="text" class="form-control" formControlName="isbnIssn">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Tytuł</label>
+                  <input type="text" class="form-control" formControlName="title">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Autor</label>
+                  <input type="text" class="form-control" formControlName="author">
+                </div>
+                <table *ngIf="foundBooks" id="bookTable" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">ISBN</th>
+                      <th scope="col">Tytuł</th>
+                      <th scope="col">Autor</th>
+                      <th scope="col">Opis</th>
+                      <th scope="col">Wydawnictwo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let book of foundBooks">
+                      <th>
+                        <fa name="search"></fa>
+                      </th>
+                      <td>{{book.isbn}}</td>
+                      <td>
+                        {{book.titlePL}}
+                        <span *ngIf="book.titleEn">
+                          ({{book.titleEn}})
+                        </span>
+                      </td>
+                      <td>{{book.author}}</td>
+                      <td>{{book.description}}</td>
+                      <td>{{book.publisherName}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
+                    <button type="submit" class="btn btn-primary" >
+                        <fa name="search"></fa> Szukaj
+                    </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div id="formBody" class="row">
+            <div class="col-md-12">
+              <form [formGroup]="formGroup" (validSubmit)="createBook()">
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">ISBN</label>
+                  <input type="text" class="form-control" formControlName="isbn">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Tytuł (PL)</label>
+                  <input type="text" class="form-control" formControlName="titlePL">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Tytuł (EN)</label>
+                  <input type="text" class="form-control" minlength="4" formControlName="titleEn">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Autor</label>
+                  <input type="text" class="form-control" formControlName="author">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Opis</label>
+                  <input type="text" class="form-control" formControlName="description">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Numer wydania</label>
+                  <input type="text" class="form-control" formControlName="editionNumber">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Data wydania</label>
+                  <input type="date" class="form-control" formControlName="editionDate">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Miejsce wydania</label>
+                  <input type="email" class="form-control" formControlName="editionPlace">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Gatunek</label>
+                  <input type="text" class="form-control" formControlName="genreName">
+                </div>
+                <div class="form-group" [customErrorMessages]="customErrorMessages">
+                  <label class="control-label">Wydawca</label>
+                  <input type="text" class="form-control" formControlName="publisherName">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
+                    <button type="submit" class="btn btn-primary" >
+                        <fa name="save"></fa> Zapisz
+                    </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- SPINNER DO ŁADOWANIA DANYCH
   <div id="connection-refused-err">

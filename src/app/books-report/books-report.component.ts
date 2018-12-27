@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { NationalLibraryService } from '../national-library.service';
 
 @Component({
   selector: 'app-books-report',
@@ -21,14 +22,19 @@ import { Location } from '@angular/common';
 export class BooksReportComponent implements OnInit {
   books: Book[];
   formGroup: FormGroup;
+  searchFormGroup: FormGroup;
+  searchAuthor: string;
+  searchTitle: string;
+  searchIsbnIssn: string;
+  foundBooks: any[];
   
   customErrorMessages: ErrorMessage[] = [
     {
       error: 'required',
-      format: (label, error) => `Pole "${label}" nie może być puste!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być pusta!`
     }, {
       error: 'pattern',
-      format: (label, error) => `${label} DOESN'T LOOK RIGHT...`
+      format: (label, error) => `Zawartość pola ${label} musi być liczbą!`
     }, {
       error: 'minlength',
       format: (label, error) => `Zawartość pola "${label}" nie może być taka krótka!`
@@ -40,9 +46,7 @@ export class BooksReportComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private location: Location,
+    private nationalLibrary: NationalLibraryService,
     private toastr: ToastrService
   ) { }
 
@@ -52,40 +56,44 @@ export class BooksReportComponent implements OnInit {
     this.formGroup = new FormGroup({
       isbn: new FormControl('', [
         Validators.required,
-        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+        Validators.minLength(10),
+        Validators.maxLength(13),
+        Validators.pattern('[0-9]*')
       ]),
       author: new FormControl('', [
         Validators.required,
-        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
       titleEn: new FormControl('', [
-        //Validators.required,
-        //Validators.minLength(5)
       ]),
       titlePL: new FormControl('', [
-        //Validators.required,
-        //Validators.minLength(4)
+        Validators.required,
       ]),
       description: new FormControl('', [
-        Validators.required,
-        //Validators.maxLength(10)
       ]),
       editionNumber: new FormControl('', [
         Validators.required,
-        //Validators.minLength(11),
-        //Validators.maxLength(11)
+        Validators.pattern('[0-9]*')
       ]),
       editionDate: new FormControl('', [
-        //Validators.required
+        Validators.required
       ]),
       editionPlace: new FormControl('', [
-        //Validators.required
+        Validators.required
       ]),
       genreName: new FormControl('', [
         Validators.required
       ]),
       publisherName: new FormControl('', [
-        //Validators.required
+        Validators.required
+      ]),
+    });
+
+    this.searchFormGroup = new FormGroup({
+      isbnIssn: new FormControl('', [
+      ]),
+      title: new FormControl('', [
+      ]),
+      author: new FormControl('', [
       ]),
     });
   }
@@ -111,6 +119,15 @@ export class BooksReportComponent implements OnInit {
       }, error => {
         this.toastr.error('Dodawanie książki nie powiodło się. Spróbuj ponownie.')
       });
+  }
+
+  onAddClick(): void {
+    this.formGroup.reset();
+  }
+
+  onCreateFromNLClick(): void {
+    this.searchFormGroup.reset();
+    $("#formBody").hide();
   }
 
 //   public showPDF(): void {

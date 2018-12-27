@@ -24,16 +24,16 @@ export class ReadersReportComponent implements OnInit {
   customErrorMessages: ErrorMessage[] = [
     {
       error: 'required',
-      format: (label, error) => `Pole "${label}" nie może być puste!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być pusta!`
     }, {
       error: 'pattern',
-      format: (label, error) => `${label} DOESN'T LOOK RIGHT...`
+      format: (label, error) => `Zawartość pola ${label} musi być liczbą`
     }, {
       error: 'minlength',
-      format: (label, error) => `${label} za krótkie!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być taka krótka!`
     }, {
       error: 'maxlength',
-      format: (label, error) => `${label} za dlugie!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być taka długa!`
     }
   ];
 
@@ -48,8 +48,7 @@ export class ReadersReportComponent implements OnInit {
 
     this.formGroup = new FormGroup({
       cardNumber: new FormControl('', [
-        //Validators.required,
-        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+        Validators.required,
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -57,45 +56,32 @@ export class ReadersReportComponent implements OnInit {
       ]),
       firstName: new FormControl('', [
         Validators.required,
-        //Validators.minLength(4)
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        //Validators.maxLength(10)
       ]),
       pesel: new FormControl('', [
         Validators.required,
         Validators.minLength(11),
-        Validators.maxLength(11)
+        Validators.maxLength(11),
       ]),
       birthday: new FormControl('', [
-        //Validators.required
       ]),
       phone: new FormControl('', [
-        //Validators.required
       ]),
       email: new FormControl('', [
         Validators.required
       ]),
       city: new FormControl('', [
-        //Validators.required
       ]),
       street: new FormControl('', [
-        //Validators.required
       ]),
       streetNumber: new FormControl('', [
-        //Validators.required
       ]),
       flatNumber: new FormControl('', [
-        //Validators.required
       ]),
     });
   }
-
-  // getReaders(): void {
-  //   this.readerService.getReaders()
-  //     .subscribe(readers => this.readers = readers);
-  // }
 
   getReaders(): void {
     this.readerService.getReaders()
@@ -103,7 +89,7 @@ export class ReadersReportComponent implements OnInit {
         //$("#connection-refused-err").hide();
         this.readers = resp.body;
       }, error => {
-        //console.log($("#connection-refused-err").show());
+        $("#loadingSpinner").hide();
         console.log(error);
       });
   }
@@ -113,17 +99,13 @@ export class ReadersReportComponent implements OnInit {
       .subscribe(resp => {
         $("#createReaderModal").modal('toggle');
         this.toastr.success('Nowy czytelnik został dodany pomyślnie!');
-        //this.readers.push(this.formGroup.value);
-        //this.ngOnInit();
         this.getReaders();
       }, error => {
-        console.log(error);
-        console.log('blad aktualizacji danych');
-        //console.log(error);
+        this.toastr.error('Nie udało się dodać czytelnika. Spróbuj ponownie.');
       });
   }
 
-  public showPDF(): void {
+  showPDF(): void {
     this.reportService.getPDF()
         .subscribe(resp => {
           //var blob = new Blob([resp.body], {type: 'application/pdf'});
@@ -135,7 +117,11 @@ export class ReadersReportComponent implements OnInit {
           // link.click();
           this.toastr.success('Raport został pobrany pomyślnie!');
         }, error => {
-          this.toastr.success('Nie udało się pobrać raportu. Spróbuj ponownie.');
+          this.toastr.error('Nie udało się pobrać raportu. Spróbuj ponownie.');
         });
-}
+  }
+
+  onAddClick(): void {
+    this.formGroup.reset();
+  }
 }

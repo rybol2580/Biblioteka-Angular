@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  // gotowe komponenty bo
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { AddReaderModalComponent } from './add-reader-modal/add-reader-modal.com
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookCopiesComponent } from './book-copies/book-copies.component';
+import { BooksFromNLComponent } from './books-from-nl/books-from-nl.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { BookCopiesComponent } from './book-copies/book-copies.component';
     AddReaderModalComponent,
     LoadingSpinnerComponent,
     BookDetailsComponent,
-    BookCopiesComponent
+    BookCopiesComponent,
+    BooksFromNLComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { BookCopiesComponent } from './book-copies/book-copies.component';
     NgBootstrapFormValidationModule.forRoot(),
     NgBootstrapFormValidationModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot(), // ToastrModule added
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

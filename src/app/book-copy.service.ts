@@ -7,15 +7,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BookCopyService {
-  private bookCopiesUrl = "http://localhost:8080/api/bookcopy";
+  private bookCopiesUrl = "http://localhost:8080/api/book-copies";
  
   constructor(
     private http: HttpClient
     ) {}
 
   /** Get book copies from server */
-  getBookCopies(): Observable<HttpResponse<BookCopy[]>> {
-    return this.http.get<BookCopy[]>(this.bookCopiesUrl, { observe: 'response' });
+  getBookCopies(id: number): Observable<HttpResponse<BookCopy[]>> {
+    const url = `${this.bookCopiesUrl}/${id}`;
+    
+    return this.http.get<BookCopy[]>(url, { observe: 'response' });
   }
 
   /** Get particular book copy from server */

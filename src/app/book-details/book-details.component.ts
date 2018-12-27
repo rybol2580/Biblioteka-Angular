@@ -25,16 +25,16 @@ export class BookDetailsComponent implements OnInit {
   customErrorMessages: ErrorMessage[] = [
     {
       error: 'required',
-      format: (label, error) => `Pole ${label.toUpperCase()} jest wymagane!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być pusta!`
     }, {
       error: 'pattern',
-      format: (label, error) => `${label.toUpperCase()} DOESN'T LOOK RIGHT...`
+      format: (label, error) => `Zawartość pola ${label} musi być liczbą`
     }, {
       error: 'minlength',
-      format: (label, error) => `${label.toUpperCase()} za krótkie!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być taka krótka!`
     }, {
       error: 'maxlength',
-      format: (label, error) => `${label.toUpperCase()} za dlugie!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być taka długa!`
     }
   ];
 
@@ -55,36 +55,35 @@ export class BookDetailsComponent implements OnInit {
       ]),
       isbn: new FormControl('', [
         Validators.required,
-        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+        Validators.minLength(10),
+        Validators.maxLength(13),
+        Validators.pattern('[0-9]*')
       ]),
       author: new FormControl('', [
         Validators.required,
-        //Validators.minLength(4)
       ]),
       titleEn: new FormControl('', [
-        Validators.required,
-        //Validators.maxLength(10)
       ]),
       titlePL: new FormControl('', [
         Validators.required
       ]),
       description: new FormControl('', [
-        //Validators.required
       ]),
       editionNumber: new FormControl('', [
-        //Validators.required
+        Validators.required,
+        Validators.pattern('[0-9]*')
       ]),
       editionDate: new FormControl('', [
-        //Validators.required
+        Validators.required
       ]),
       editionPlace: new FormControl('', [
-        //Validators.required
+        Validators.required
       ]),
       genreName: new FormControl('', [
-        //Validators.required
+        Validators.required
       ]),
       publisherName: new FormControl('', [
-        //Validators.required
+        Validators.required
       ]),
     });
   }
@@ -136,6 +135,10 @@ export class BookDetailsComponent implements OnInit {
       }, error => {
         this.toastr.error('Usuwanie książki nie powiodło się. Spróbuj ponownie.');
       });
+  }
+
+  onEditModalClick(): void {
+    this.setItemsValue();
   }
 
 }

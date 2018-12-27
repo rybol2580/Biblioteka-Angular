@@ -26,16 +26,16 @@ export class ReaderDetailsComponent implements OnInit {
   customErrorMessages: ErrorMessage[] = [
     {
       error: 'required',
-      format: (label, error) => `Pole ${label.toUpperCase()} jest wymagane!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być pusta!`
     }, {
       error: 'pattern',
-      format: (label, error) => `${label.toUpperCase()} DOESN'T LOOK RIGHT...`
+      format: (label, error) => `Zawartość pola ${label} musi być liczbą`
     }, {
       error: 'minlength',
-      format: (label, error) => `${label.toUpperCase()} za krótkie!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być taka krótka!`
     }, {
       error: 'maxlength',
-      format: (label, error) => `${label.toUpperCase()} za dlugie!`
+      format: (label, error) => `Zawartość pola "${label}" nie może być taka długa!`
     }
   ];
 
@@ -56,45 +56,33 @@ export class ReaderDetailsComponent implements OnInit {
       ]),
       cardNumber: new FormControl('', [
         Validators.required,
-        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
       firstName: new FormControl('', [
         Validators.required,
-        //Validators.minLength(4)
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        //Validators.maxLength(10)
       ]),
       pesel: new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.minLength(11),
+        Validators.maxLength(11),
       ]),
       birthday: new FormControl('', [
-        //Validators.required
       ]),
       phone: new FormControl('', [
-        //Validators.required
       ]),
       email: new FormControl('', [
-        //Validators.required
+        Validators.required
       ]),
       city: new FormControl('', [
-        //Validators.required
       ]),
       street: new FormControl('', [
-        //Validators.required
       ]),
       streetNumber: new FormControl('', [
-        //Validators.required
       ]),
       flatNumber: new FormControl('', [
-        //Validators.required
       ]),
-      // first: new FormControl('', [
-      //   Validators.required,
-      //   Validators.minLength(8),
-      //   Validators.maxLength(20)
-      // ])
     });
   }
 
@@ -133,13 +121,7 @@ export class ReaderDetailsComponent implements OnInit {
     this.formGroup.get('flatNumber').setValue(this.reader.flatNumber);
   }
 
-  // save(reader: Reader): void {
-  //   //console.log(`${reader.lastName}`);
-  //   this.readerService.updateReader(reader)
-  //     .subscribe();
-  // }
-
-  readerUpdate(): void {
+  updateReader(): void {
     //this.reader = this.formGroup.value;
     //console.log(this.formGroup.value);
     this.readerService.updateReader(this.formGroup.value)
@@ -162,6 +144,10 @@ export class ReaderDetailsComponent implements OnInit {
         this.toastr.error('Usuwanie czytelnika nie powiodło się. Spróbuj ponownie.');
         //console.log(error);
       });
+  }
+
+  onEditClick(): void {
+    this.setItemsValue();
   }
 
 }

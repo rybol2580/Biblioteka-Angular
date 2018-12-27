@@ -1,4 +1,4 @@
-<app-loading-spinner *ngIf="!readers"></app-loading-spinner>
+<app-loading-spinner id="loadingSpinner" *ngIf="!readers"></app-loading-spinner>
 <div class="readers-report-container">
   <div *ngIf="readers">
     <div class="t-Region">
@@ -9,6 +9,7 @@
         <div class="t-Region-headerItems--button">
           <button type="button" 
                   class="btn btn-primary"
+                  (click)="onAddClick()"
                   data-toggle="modal"
                   data-target="#createReaderModal">
             <fa name="plus"></fa> Dodaj

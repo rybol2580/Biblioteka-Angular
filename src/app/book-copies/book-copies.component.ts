@@ -5,6 +5,7 @@ import { ErrorMessage } from 'ng-bootstrap-form-validation';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 declare var $ : any;
 import { ToastrService } from 'ngx-toastr';
+import { ReaderService } from '../reader.service';
 
 @Component({
   selector: 'app-book-copies',
@@ -17,6 +18,8 @@ export class BookCopiesComponent implements OnInit {
   bookCopyDetailsForm: FormGroup;
   bookCopyBorrowForm: FormGroup;
   bookCopy: BookCopy;
+  readersArray: any[];
+  selectedReaderId: string;
 
   customErrorMessages: ErrorMessage[] = [
     {
@@ -36,11 +39,13 @@ export class BookCopiesComponent implements OnInit {
 
   constructor(
     private bookCopyService: BookCopyService,
+    private readerService: ReaderService,
     private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
     this.getBookCopies();
+    this.getReaders();
 
     this.bookCopyDetailsForm = new FormGroup({
       bookCopyId: new FormControl('', [
@@ -71,7 +76,7 @@ export class BookCopiesComponent implements OnInit {
         Validators.required,
         //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
-      location: new FormControl('', [
+      readerId: new FormControl('', [
         Validators.required,
         //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
@@ -96,7 +101,7 @@ export class BookCopiesComponent implements OnInit {
   }
 
   getBookCopies(): void {
-    this.bookCopyService.getBookCopies()
+    this.bookCopyService.getBookCopies(this.bookId)
       .subscribe(resp => {
         this.bookCopies = resp.body;
         console.log(this.bookCopies);
@@ -145,10 +150,27 @@ export class BookCopiesComponent implements OnInit {
   }
 
   setBorrowDetails(id: number, copyNumber: string) {
+    this.bookCopyBorrowForm.reset();
     this.bookCopyBorrowForm.get('bookCopyId').setValue(id);
     this.bookCopyBorrowForm.get('copyNumber').setValue(copyNumber);
+    console.log(this.readersArray);
+
     //this.bookCopy.copyNumber = copyNumber;
 
     console.log(id + ' oraz copy number ' + copyNumber);
+  }
+
+  borrowBookCopy(): void {
+    console.log(this.bookCopyBorrowForm.get('bookCopyId').value);
+  }
+
+  getReaders(): void {
+    this.readerService.getReaders()
+      .subscribe(resp => {
+        this.readersArray = resp.body;
+      }, error => {
+        //console.log($("#connection-refused-err").show());
+        console.log(error);
+      });
   }
 }

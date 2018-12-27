@@ -1,3 +1,4 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
 /* Own styles*/
 body {
   background-color: #fdfdfd;
@@ -19,4 +20,8 @@ table tbody th {
 
 .btn {
   margin-right: 5px;
+}
+
+label.control-label {
+  font-weight: 700;
 }
