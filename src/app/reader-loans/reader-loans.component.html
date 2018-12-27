@@ -1,0 +1,62 @@
+<div class="bookcopies-report-container">
+    <!-- <div *ngIf="bookCopies"> -->
+      <div class="t-Region">
+        <div class="t-Region-header">
+          <div class="t-Region-headerItems--title">
+            Lista wypożyczeń czytelnika
+          </div>
+          <!-- <div class="t-Region-headerItems--button">
+            <button type="button" 
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#createBookCopyModal">
+              <fa name="plus"></fa> Dodaj
+            </button>
+          </div> -->
+        </div>
+        <div class=t-Region-body>
+          <div *ngIf="readerLoans.length == 0" class="no-data-found">
+            <span>
+              <fa name="search"></fa> Nie znaleziono żadnego wypożyczenia.
+            </span>
+          </div>
+          <div *ngIf="readerLoans.length > 0" class="book-copies-report-container-inner">
+            <div class="table-responsive">
+              <table id="bookTable" class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Numer egzemplarza</th>
+                    <th scope="col">Tytuł</th>
+                    <th scope="col">Data wypożyczenia</th>
+                    <th scope="col">Planowana data zwrotu</th>
+                    <th scope="col">Rzeczywista data zwrotu</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Zwracanie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let readerLoan of readerLoans">
+                    <td>{{readerLoan.copyNumber}}</td>
+                    <td>{{readerLoan.title}}</td>
+                    <td>{{readerLoan.loanDate}}</td>
+                    <td>{{readerLoan.plannedDueDate}}</td>
+                    <td>{{readerLoan.actualDueDate}}</td>
+                    <td *ngIf="readerLoan.status=='RETURNED'" style="background-color:lightgreen">Zwrócona</td>
+                    <td *ngIf="readerLoan.status=='BORROWED'" style="background-color:red">Wypożyczona</td>
+                    <td *ngIf="readerLoan.status=='RETURNED'" style="opacity: 0.4">Zwróć</td>
+                    <td *ngIf="readerLoan.status=='BORROWED'">
+                        <a href="#"
+                           (click)="returnBookCopy(readerLoan.bookLoanId)"
+                           title="Zwróć egzemplarz">
+                          Zwróć
+                        </a>
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>

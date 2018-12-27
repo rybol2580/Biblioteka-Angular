@@ -15,7 +15,12 @@
         </div>
       </div>
       <div class=t-Region-body>
-        <div class="book-copies-report-container-inner">
+        <div *ngIf="bookCopies.length == 0" class="no-data-found">
+          <span>
+            <fa name="search"></fa> Nie znaleziono żadnego egzemplarza książki.
+          </span>
+        </div>
+        <div *ngIf="bookCopies.length > 0" class="book-copies-report-container-inner">
           <div class="table-responsive">
             <table id="bookTable" class="table table-hover">
               <thead>
@@ -33,19 +38,20 @@
                   <th>
                     <a href="#editBookCopyModal" 
                        data-toggle="modal"
-                       (click)="getBookCopy(bookCopy.bookCopyId)"
+                       (click)="getBookCopy(bookCopy.bookId,bookCopy.bookCopyId)"
                        title="Wyświetl szczegóły">
-                        <fa name="search"></fa>
+                        <fa name="edit"></fa>
                     </a>
                   </th>
                   <td>{{bookCopy.copyNumber}}</td>
                   <td>{{bookCopy.location}}</td>
                   <td>{{bookCopy.description}}</td>
-                  <td>{{bookCopy.isAvailable}}</td>
+                  <td *ngIf="bookCopy.available==true" style="background-color:lightgreen">Dostępna</td>
+                  <td *ngIf="bookCopy.available==false" style="background-color:red">Niedostępna</td>
                   <td>
                     <a href="#borrowBookCopyModal"
                        data-toggle="modal"
-                       (click)="setBorrowDetails(bookCopy.bookCopyId, bookCopy.copyNumber)"
+                       (click)="setBorrowDetails(bookCopy.bookCopyId)"
                        title="Wypożycz egzemplarz">
                       Wypożycz
                     </a>
@@ -155,10 +161,6 @@
           <div class="col-md-12">
             <form [formGroup]="bookCopyBorrowForm" (validSubmit)="borrowBookCopy()">
               <div class="form-group" [customErrorMessages]="customErrorMessages">
-                <label class="control-label">Numer egzemplarza</label>
-                <input type="text" class="form-control-plaintext" formControlName="copyNumber" disabled>
-              </div>
-              <div class="form-group" [customErrorMessages]="customErrorMessages">
                 <label class="control-label">Czytelnik</label>
                 <ng-select [items]="readersArray"
                           bindLabel="cardNumber"
@@ -167,6 +169,26 @@
                           [(ngModel)]="selectedReaderId"
                           formControlName="readerId">
                 </ng-select>
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Data wypożyczenia</label>
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd"
+                          name="loanDateDP" formControlName="loanDate" ngbDatepicker #loanDate="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="loanDate.toggle()" type="button"><fa name="calendar"></fa></button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" [customErrorMessages]="customErrorMessages">
+                <label class="control-label">Data oddania</label>
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd"
+                          name="plannedDueDateDP" formControlName="plannedDueDate" ngbDatepicker #plannedDueDate="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="plannedDueDate.toggle()" type="button"><fa name="calendar"></fa></button>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>

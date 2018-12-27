@@ -81,3 +81,8 @@
   .t-Region .t-Region-body {
     padding: 16px;
   }
+
+  .no-data-found {
+    text-align: center;
+    display: none;
+  }

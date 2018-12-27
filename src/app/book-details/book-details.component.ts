@@ -19,7 +19,6 @@ import { AngularFontAwesomeComponent } from 'angular-font-awesome';
 })
 export class BookDetailsComponent implements OnInit {
   book: Book;
-  bookCopies: any;
   formGroup: FormGroup;
 
   customErrorMessages: ErrorMessage[] = [
@@ -107,6 +106,7 @@ export class BookDetailsComponent implements OnInit {
     
     this.bookService.getBook(id)
       .subscribe(resp => {
+        console.log('wczytana ksiazka: ' + JSON.stringify(resp.body));
         this.book = resp.body;
         this.setItemsValue();
       }, error => {

@@ -21,8 +21,8 @@ export class BookCopyService {
   }
 
   /** Get particular book copy from server */
-  getBookCopy(id: number): Observable<HttpResponse<BookCopy>> {
-    const url = `${this.bookCopiesUrl}/${id}`;
+  getBookCopy(bookId: number, bookCopyId: number): Observable<HttpResponse<BookCopy>> {
+    const url = `${this.bookCopiesUrl}/${bookId}/${bookCopyId}`;
 
     return this.http.get<BookCopy>(url, { observe: 'response' });
   }

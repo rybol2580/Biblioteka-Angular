@@ -4,6 +4,6 @@ export class BookCopy {
     location: string;
     description: string;
     bookId: number;
-    isAvailable: boolean;
+    available: boolean;
   };
   

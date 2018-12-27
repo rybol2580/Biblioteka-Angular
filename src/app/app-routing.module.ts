@@ -6,6 +6,7 @@ import { ReaderDetailsComponent } from './reader-details/reader-details.componen
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { AddReaderModalComponent } from './add-reader-modal/add-reader-modal.component';
 import { BooksFromNLComponent } from './books-from-nl/books-from-nl.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/books', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'books', component: BooksReportComponent },
   { path: 'books/:id', component: BookDetailsComponent },
   { path: 'booksFromNL', component: BooksFromNLComponent },
+  { path: 'statistics', component: StatisticsComponent },
   //{ path: 'readers', component: ReaderReportComponent }
 ];
 

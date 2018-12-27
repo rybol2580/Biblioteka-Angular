@@ -6,6 +6,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 declare var $ : any;
 import { ToastrService } from 'ngx-toastr';
 import { ReaderService } from '../reader.service';
+import { formatDate } from '@angular/common';
+import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-book-copies',
@@ -14,7 +16,7 @@ import { ReaderService } from '../reader.service';
 })
 export class BookCopiesComponent implements OnInit {
   @Input() bookId: number;
-  bookCopies: BookCopy[];
+  bookCopies: BookCopy[] = [];
   bookCopyDetailsForm: FormGroup;
   bookCopyBorrowForm: FormGroup;
   bookCopy: BookCopy;
@@ -41,6 +43,7 @@ export class BookCopiesComponent implements OnInit {
     private bookCopyService: BookCopyService,
     private readerService: ReaderService,
     private toastr: ToastrService,
+    private calendar: NgbCalendar,
   ) { }
 
   ngOnInit() {
@@ -66,38 +69,45 @@ export class BookCopiesComponent implements OnInit {
         //Validators.required,
         //Validators.minLength(4)
       ]),
+      available: new FormControl('', [
+        //Validators.required,
+        //Validators.minLength(4)
+      ]),
     });
 
     this.bookCopyBorrowForm = new FormGroup({
       bookCopyId: new FormControl('', [
         //Validators.required
       ]),
-      copyNumber: new FormControl('', [
-        Validators.required,
-        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-      ]),
       readerId: new FormControl('', [
         Validators.required,
         //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
-      description: new FormControl('', [
-        //Validators.required,
-        //Validators.minLength(5)
+      librarianId: new FormControl('', [
+        Validators.required,
+        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
-      bookId: new FormControl('', [
-        //Validators.required,
-        //Validators.minLength(4)
+      loanDate: new FormControl('', [
+        Validators.required,
+        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
       ]),
+      plannedDueDate: new FormControl('', [
+        Validators.required,
+        //Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+      ]),
+      
     });
   }
 
   setBookCopyItemsValue(): void {
-    this.bookCopyDetailsForm.get('bookCopyId').setValue(this.bookCopy.bookCopyId);
-    this.bookCopyDetailsForm.get('copyNumber').setValue(this.bookCopy.copyNumber);
-    this.bookCopyDetailsForm.get('location').setValue(this.bookCopy.location);
-    this.bookCopyDetailsForm.get('description').setValue(this.bookCopy.description);
-    this.bookCopyDetailsForm.get('bookId').setValue(this.bookCopy.bookId);
-    this.bookCopyDetailsForm.get('isAvailable').setValue(this.bookCopy.isAvailable);
+    //console.log('setBookCopyValue - bookcopy: ' + this.bookCopy[0].copyNumber);
+    this.bookCopyDetailsForm.get('bookCopyId').setValue(this.bookCopy[0].bookCopyId);
+    this.bookCopyDetailsForm.get('copyNumber').setValue(this.bookCopy[0].copyNumber);
+    this.bookCopyDetailsForm.get('location').setValue(this.bookCopy[0].location);
+    this.bookCopyDetailsForm.get('description').setValue(this.bookCopy[0].description);
+    this.bookCopyDetailsForm.get('bookId').setValue(this.bookCopy[0].bookId);
+    this.bookCopyDetailsForm.get('available').setValue(this.bookCopy[0].available);
+    //console.log(this.bookCopyDetailsForm.value);
   }
 
   getBookCopies(): void {
@@ -126,10 +136,9 @@ export class BookCopiesComponent implements OnInit {
     });
   }
 
-  getBookCopy(id: number): void {
-    this.bookCopyService.getBookCopy(id)
+  getBookCopy(bookId: number, bookCopyId: number): void {
+    this.bookCopyService.getBookCopy(bookId, bookCopyId)
       .subscribe(resp => {
-        //console.log(resp.body);
         this.bookCopy = resp.body;
         this.setBookCopyItemsValue();
       }, error => {
@@ -149,25 +158,35 @@ export class BookCopiesComponent implements OnInit {
       });
   }
 
-  setBorrowDetails(id: number, copyNumber: string) {
+  setBorrowDetails(id: number) {
     this.bookCopyBorrowForm.reset();
     this.bookCopyBorrowForm.get('bookCopyId').setValue(id);
-    this.bookCopyBorrowForm.get('copyNumber').setValue(copyNumber);
+    this.bookCopyBorrowForm.get('librarianId').setValue(1);
+    this.bookCopyBorrowForm.get('loanDate').setValue(this.calendar.getToday());
     console.log(this.readersArray);
-
-    //this.bookCopy.copyNumber = copyNumber;
-
-    console.log(id + ' oraz copy number ' + copyNumber);
   }
 
   borrowBookCopy(): void {
-    console.log(this.bookCopyBorrowForm.get('bookCopyId').value);
+    this.prepareBorrowBookCopyForm();
+    console.log(this.bookCopyBorrowForm.value);
+  }
+
+  prepareBorrowBookCopyForm(): void {
+    let loanDateJSON = this.bookCopyBorrowForm.get('loanDate').value;
+    let loanDateConverted = loanDateJSON.day + '.' + loanDateJSON.month + "." + loanDateJSON.year;
+    console.log(loanDateConverted);
+    this.bookCopyBorrowForm.get('loanDate').setValue(loanDateConverted);
+    let plannedDueDateJSON = this.bookCopyBorrowForm.get('plannedDueDate').value;
+    let plannedDueDateConverted = plannedDueDateJSON.day + '.' + plannedDueDateJSON.month + "." + plannedDueDateJSON.year;
+    console.log(plannedDueDateConverted);
+    this.bookCopyBorrowForm.get('plannedDueDate').setValue(plannedDueDateConverted);
   }
 
   getReaders(): void {
     this.readerService.getReaders()
       .subscribe(resp => {
         this.readersArray = resp.body;
+        console.log(resp.body);
       }, error => {
         //console.log($("#connection-refused-err").show());
         console.log(error);

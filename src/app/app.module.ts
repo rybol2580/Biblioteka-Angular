@@ -8,6 +8,7 @@ import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookCopiesComponent } from './book-copies/book-copies.component';
 import { BooksFromNLComponent } from './books-from-nl/books-from-nl.component';
+import { ReaderLoansComponent } from './reader-loans/reader-loans.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { BooksFromNLComponent } from './books-from-nl/books-from-nl.component';
     LoadingSpinnerComponent,
     BookDetailsComponent,
     BookCopiesComponent,
-    BooksFromNLComponent
+    BooksFromNLComponent,
+    ReaderLoansComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +51,8 @@ import { BooksFromNLComponent } from './books-from-nl/books-from-nl.component';
     NgBootstrapFormValidationModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
-    NgSelectModule
+    NgSelectModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
