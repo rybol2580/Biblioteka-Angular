@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 //import * as $ from 'jquery';
 declare var $ : any;
@@ -11,6 +11,7 @@ import { BookService } from '../book.service';
 import { Location } from '@angular/common';
 import { first } from 'rxjs/operators';
 import { AngularFontAwesomeComponent } from 'angular-font-awesome';
+import { BookCopy } from '../entities/bookcopy';
 
 @Component({
   selector: 'app-book-details',
@@ -20,6 +21,7 @@ import { AngularFontAwesomeComponent } from 'angular-font-awesome';
 export class BookDetailsComponent implements OnInit {
   book: Book;
   formGroup: FormGroup;
+  bookCopiesAmount: number;
 
   customErrorMessages: ErrorMessage[] = [
     {
@@ -114,7 +116,7 @@ export class BookDetailsComponent implements OnInit {
       });
   }
 
-  bookUpdate(): void {
+  updateBook(): void {
     //this.reader = this.formGroup.value;
     //console.log(this.formGroup.value);
     this.bookService.updateBook(this.formGroup.value)
@@ -122,23 +124,31 @@ export class BookDetailsComponent implements OnInit {
         $("#editBookModal").modal('toggle');
         this.toastr.success('Zmiany zostały zapisane pomyślnie!');
         this.book = this.formGroup.value;
+        console.log('zapisane zmiany ksiazki: ' + this.formGroup.value);
+        console.log(this.formGroup.value);
+        console.log('zapisane zmiany ksiazki -> ksiazka: ' + this.book);
+        console.log(this.book);
       }, error => {
         this.toastr.error('Zapisanie zmian nie powiodło się. Spróbuj ponownie.');
+        console.log(error);
       });
   }
 
-  deleteBook(): void {
-    this.bookService.deleteBook(this.book)
-      .subscribe(resp => {
-        this.location.back();
-        this.toastr.success('Książka została usunięta pomyślnie!');
-      }, error => {
-        this.toastr.error('Usuwanie książki nie powiodło się. Spróbuj ponownie.');
-      });
+  onDeleteClick(id: number): void {
+    this.bookService.deleteBook(id)
+    .subscribe(resp => {
+      this.location.back();
+      this.toastr.success('Książka została usunięta pomyślnie!');
+    }, error => {
+      this.toastr.error('Usuwanie książki nie powiodło się. Spróbuj ponownie.');
+    });
   }
 
   onEditModalClick(): void {
     this.setItemsValue();
   }
 
+  public getBookCopiesAmount(bookCopiesAmount: number) {
+    this.bookCopiesAmount = bookCopiesAmount;
+  }
 }

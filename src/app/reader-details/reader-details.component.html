@@ -8,11 +8,6 @@
       </div>
       <div class="t-Region-headerItems--button">
         <button type="button" 
-                class="btn btn-secondary"
-                (click)="deleteReader()">
-          <fa name="trash"></fa> Usuń
-        </button>
-        <button type="button" 
                 class="btn btn-primary"
                 (click)="onEditClick()"
                 data-toggle="modal"
@@ -93,6 +88,7 @@
   </div>
 </div>
 <app-reader-loans [readerId]="reader.readerId"></app-reader-loans>
+<!-- <app-reader-returned-loans [readerId]="reader.readerId"></app-reader-returned-loans> -->
 
 <div *ngIf="reader">
   <div class="modal fade" id="editReaderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -154,8 +150,18 @@
                   <input type="text" class="form-control" formControlName="flatNumber" value="{{reader.flatNumber}}">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                    <button id="save" type="submit" class="btn btn-primary" >
+                    <button type="button" 
+                            class="btn btn-secondary left" 
+                            data-dismiss="modal">
+                      Zamknij
+                    </button>
+                    <button type="button" 
+                            class="btn btn-secondary left" 
+                            data-dismiss="modal"
+                            (click)="onDeleteClick(reader.readerId)"> 
+                      <fa name="trash"></fa> Usuń
+                    </button>
+                    <button id="save" type="submit" class="btn btn-primary right" >
                         <fa name="save"></fa> Zapisz
                     </button>
                 </div>

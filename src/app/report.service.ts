@@ -12,7 +12,7 @@ export class ReportService {
   ) { }
 
   public getPDF(): Observable<HttpResponse<Blob>> {   
-      let url = 'http://localhost:8080/api/report';
+      let url = 'http://localhost:8080/api/reports';
       return this.http.get(url, { responseType: 'blob', observe: 'response' });
     }
 }

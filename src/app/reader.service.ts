@@ -24,6 +24,11 @@ export class ReaderService {
     return this.http.get<Reader[]>(this.readersUrl, { observe: 'response' });
   }
 
+  getReadersLOV(): Observable<HttpResponse<Reader[]>> {
+    let readersLOV = "http://localhost:8080/api/readers/lov";
+    return this.http.get<Reader[]>(readersLOV, { observe: 'response' });
+  }
+
   /** Get readers from server */
   getReader(id: number): Observable<HttpResponse<Reader>> {
     const url = `${this.readersUrl}/${id}`;

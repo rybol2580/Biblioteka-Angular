@@ -8,6 +8,7 @@
         <div class="t-Region-headerItems--button">
           <button type="button" 
                   class="btn btn-primary"
+                  (click)="onAddClick()"
                   data-toggle="modal"
                   data-target="#createBookCopyModal">
             <fa name="plus"></fa> Dodaj
@@ -38,7 +39,7 @@
                   <th>
                     <a href="#editBookCopyModal" 
                        data-toggle="modal"
-                       (click)="getBookCopy(bookCopy.bookId,bookCopy.bookCopyId)"
+                       (click)="getBookCopy(bookCopy.bookCopyId)"
                        title="Wyświetl szczegóły">
                         <fa name="edit"></fa>
                     </a>
@@ -46,9 +47,9 @@
                   <td>{{bookCopy.copyNumber}}</td>
                   <td>{{bookCopy.location}}</td>
                   <td>{{bookCopy.description}}</td>
-                  <td *ngIf="bookCopy.available==true" style="background-color:lightgreen">Dostępna</td>
-                  <td *ngIf="bookCopy.available==false" style="background-color:red">Niedostępna</td>
-                  <td>
+                  <td *ngIf="bookCopy.available==true" style="background-color:lightgreen">Dostępny</td>
+                  <td *ngIf="bookCopy.available==false" style="background-color:red">Niedostępny</td>
+                  <td *ngIf="bookCopy.available==true">
                     <a href="#borrowBookCopyModal"
                        data-toggle="modal"
                        (click)="setBorrowDetails(bookCopy.bookCopyId)"
@@ -56,6 +57,7 @@
                       Wypożycz
                     </a>
                   </td>
+                  <td *ngIf="bookCopy.available==false" style="opacity: 0.4">Egzemplarz wypożyczony</td>
                 </tr>
               </tbody>
             </table>
@@ -93,8 +95,8 @@
                 <input type="text" class="form-control" formControlName="description">
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                  <button type="submit" class="btn btn-primary" >
+                  <button type="button" class="btn btn-secondary left" data-dismiss="modal">Zamknij</button>
+                  <button type="submit" class="btn btn-primary right" >
                       <fa name="plus"></fa> Dodaj
                   </button>
               </div>
@@ -133,8 +135,15 @@
                 <input type="text" class="form-control" formControlName="description">
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                  <button type="submit" class="btn btn-primary" >
+                  <button type="button" class="btn btn-secondary left" data-dismiss="modal">Zamknij</button>
+                  <button *ngIf="bookCopy && bookCopy.available==true"
+                          type="button" 
+                          class="btn btn-secondary left" 
+                          data-dismiss="modal"
+                          (click)="onDeleteClick(bookCopy.bookCopyId)">
+                    <fa name="trash"></fa> Usuń
+                  </button>
+                  <button type="submit" class="btn btn-primary right">
                       <fa name="save"></fa> Zapisz
                   </button>
               </div>
@@ -163,7 +172,7 @@
               <div class="form-group" [customErrorMessages]="customErrorMessages">
                 <label class="control-label">Czytelnik</label>
                 <ng-select [items]="readersArray"
-                          bindLabel="cardNumber"
+                          bindLabel="displayValue"
                           bindValue="readerId"
                           placeholder="Wybierz czytelnika"
                           [(ngModel)]="selectedReaderId"
@@ -191,8 +200,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                  <button type="submit" class="btn btn-primary" >
+                  <button type="button" class="btn btn-secondary left" data-dismiss="modal">Zamknij</button>
+                  <button type="submit" class="btn btn-primary right" >
                       <fa name="save"></fa> Wypożycz
                   </button>
               </div>

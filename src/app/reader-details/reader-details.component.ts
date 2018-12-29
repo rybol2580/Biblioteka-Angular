@@ -135,15 +135,16 @@ export class ReaderDetailsComponent implements OnInit {
       });
   }
 
-  deleteReader(): void {
+
+  onDeleteClick(id: number): void {
     this.readerService.deleteReader(this.reader)
-      .subscribe(resp => {
-        this.location.back();
-        this.toastr.success('Czytelnik został usunięty pomyślnie!');
-      }, error => {
-        this.toastr.error('Usuwanie czytelnika nie powiodło się. Spróbuj ponownie.');
-        //console.log(error);
-      });
+    .subscribe(resp => {
+      this.location.back();
+      this.toastr.success('Czytelnik został usunięty pomyślnie!');
+    }, error => {
+      this.toastr.error('Usuwanie czytelnika nie powiodło się. Spróbuj ponownie.');
+      //console.log(error);
+    });
   }
 
   onEditClick(): void {

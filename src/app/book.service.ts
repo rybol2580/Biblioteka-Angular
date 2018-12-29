@@ -10,8 +10,6 @@ import { Book } from './entities/book';
 })
 export class BookService {
   private booksUrl = "http://localhost:8080/api/books";
- 
-  // Observable string streams
 
 
   constructor(
@@ -43,8 +41,8 @@ export class BookService {
                                   {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'});
   }
 
-  deleteBook(book: Book): Observable<HttpResponse<Book>> {
-    const url = `${this.booksUrl}/${book.bookId}`;
+  deleteBook(id: number): Observable<HttpResponse<Book>> {
+    const url = `${this.booksUrl}/${id}`;
 
     return this.http.delete<Book>(url,
                                     {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'})

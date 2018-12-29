@@ -30,7 +30,12 @@
         </div>
       </div>
       <div class=t-Region-body>
-        <div class="books-report-container-inner">
+        <div *ngIf="books.length == 0" class="no-data-found">
+          <span>
+            <fa name="search"></fa> Nie znaleziono żadnego egzemplarza książki.
+          </span>
+        </div>
+        <div *ngIf="books.length > 0" class="books-report-container-inner">
           <div class="table-responsive">
             <table id="bookTable" class="table table-hover">
               <thead>
@@ -74,7 +79,7 @@
 <a href="http://localhost:8080/api/report" target="_blank"><button>KLIKNIJ ABY OTWORZYĆ RAPORT</button></a>
 <!-- To wyzej otwiera od razu raport-->
 
-<!-- Modal -->
+<!-- Add book modal-->
 <div class="modal fade" id="createBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -129,8 +134,8 @@
                 <input type="text" class="form-control" formControlName="publisherName">
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                  <button type="submit" class="btn btn-primary" >
+                  <button type="button" class="btn btn-secondary left" data-dismiss="modal">Zamknij</button>
+                  <button type="submit" class="btn btn-primary right" >
                       <fa name="save"></fa> Zapisz
                   </button>
               </div>

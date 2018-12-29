@@ -21,8 +21,8 @@ export class BookCopyService {
   }
 
   /** Get particular book copy from server */
-  getBookCopy(bookId: number, bookCopyId: number): Observable<HttpResponse<BookCopy>> {
-    const url = `${this.bookCopiesUrl}/${bookId}/${bookCopyId}`;
+  getBookCopy(bookCopyId: number): Observable<HttpResponse<BookCopy>> {
+    const url = `${this.bookCopiesUrl}/book-copy/${bookCopyId}`;
 
     return this.http.get<BookCopy>(url, { observe: 'response' });
   }
@@ -40,8 +40,8 @@ export class BookCopyService {
                                   {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'});
   }
 
-  deleteBookCopy(bookCopy: BookCopy): Observable<HttpResponse<BookCopy>> {
-    const url = `${this.bookCopiesUrl}/${bookCopy.bookId}`;
+  deleteBookCopy(id: number): Observable<HttpResponse<BookCopy>> {
+    const url = `${this.bookCopiesUrl}/${id}`;
 
     return this.http.delete<BookCopy>(url,
                                     {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'})

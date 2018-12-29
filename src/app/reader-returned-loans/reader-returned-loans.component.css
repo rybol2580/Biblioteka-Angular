@@ -47,3 +47,7 @@
   tbody tr td:nth-last-child(1), tbody tr td:nth-last-child(2) {
     text-align: center;
   }
+
+  .no-data-found {
+    text-align: center;
+  }

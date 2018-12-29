@@ -8,11 +8,6 @@
       </div>
       <div class="t-Region-headerItems--button">
         <button type="button" 
-                class="btn btn-secondary"
-                (click)="deleteBook()">
-          <fa name="trash"></fa> Usuń
-        </button>
-        <button type="button" 
                 class="btn btn-primary"
                 (click)="onEditModalClick()"
                 data-toggle="modal"
@@ -86,7 +81,7 @@
       </form>
   </div>
 </div>
-<app-book-copies [bookId]="book.bookId"></app-book-copies>
+<app-book-copies [bookId]="book.bookId" (getBookCopiesAmount)="getBookCopiesAmount($event)"></app-book-copies>
 
 <!-- Edit book - Modal -->
 <div *ngIf="book">
@@ -102,7 +97,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
-              <form [formGroup]="formGroup" (validSubmit)="bookUpdate()">
+              <form [formGroup]="formGroup" (validSubmit)="updateBook()">
                 <div class="form-group" [customErrorMessages]="customErrorMessages">
                   <label class="control-label">ISBN</label>
                   <input type="text" class="form-control-plaintext" formControlName="isbn" value="{{book.isbn}}" disabled>
@@ -144,8 +139,21 @@
                   <input type="text" class="form-control" formControlName="editionPlace" value="{{book.editionPlace}}">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                    <button id="save" type="submit" class="btn btn-primary" >
+                    <button type="button" 
+                            class="btn btn-secondary left" 
+                            data-dismiss="modal"> 
+                      Zamknij
+                    </button>
+                    <button *ngIf="bookCopiesAmount == 0"
+                            type="button" 
+                            class="btn btn-secondary left" 
+                            data-dismiss="modal"
+                            (click)="onDeleteClick(book.bookId)"> 
+                      <fa name="trash"></fa> Usuń
+                    </button>
+                    <button id="save" 
+                            type="submit" 
+                            class="btn btn-primary right" >
                         <fa name="save"></fa> Zapisz
                     </button>
                 </div>

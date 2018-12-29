@@ -23,6 +23,7 @@ import { BookCopiesComponent } from './book-copies/book-copies.component';
 import { BooksFromNLComponent } from './books-from-nl/books-from-nl.component';
 import { ReaderLoansComponent } from './reader-loans/reader-loans.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { ReaderReturnedLoansComponent } from './reader-returned-loans/reader-returned-loans.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     BookCopiesComponent,
     BooksFromNLComponent,
     ReaderLoansComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    ReaderReturnedLoansComponent
   ],
   imports: [
     BrowserModule,

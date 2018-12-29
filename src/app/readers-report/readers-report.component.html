@@ -17,7 +17,12 @@
         </div>
       </div>
       <div class=t-Region-body>
-        <div class="readers-report-container-inner">
+        <div *ngIf="readers.length == 0" class="no-data-found">
+          <span>
+            <fa name="search"></fa> Nie znaleziono żadnego czytelnika.
+          </span>
+        </div>
+        <div *ngIf="readers.length > 0" class="readers-report-container-inner">
           <div class="table-responsive">
             <table id="readersTable" class="table table-hover">
               <thead>
@@ -119,8 +124,8 @@
                 <input type="text" class="form-control" formControlName="flatNumber">
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Zamknij</button>
-                  <button type="submit" class="btn btn-primary" >
+                  <button type="button" class="btn btn-secondary left" data-dismiss="modal">Zamknij</button>
+                  <button type="submit" class="btn btn-primary right" >
                       <fa name="save"></fa> Zapisz
                   </button>
               </div>

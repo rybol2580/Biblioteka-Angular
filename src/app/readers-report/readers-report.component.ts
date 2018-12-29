@@ -98,6 +98,7 @@ export class ReadersReportComponent implements OnInit {
     this.readerService.createReader(this.formGroup.value)
       .subscribe(resp => {
         $("#createReaderModal").modal('toggle');
+        console.log(this.formGroup.value);
         this.toastr.success('Nowy czytelnik został dodany pomyślnie!');
         this.getReaders();
       }, error => {
