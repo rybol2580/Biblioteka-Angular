@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
 import { Reader } from '../_models/reader';
 
 @Injectable({
@@ -57,27 +56,5 @@ export class ReaderService {
 
     return this.http.delete<Reader>(url,
                                     {headers: new HttpHeaders({'Content-Type':'application/json'}), observe: 'response'})
-  }
-
-  /* 
-    updateReader(reader: Reader): Observable<any> {
-    return this.http.put(this.readersUrl, reader, httpOptions).pipe(
-      catchError(this.handleError<any>('updateReader'))
-    );
-  }
-  */
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log('wystapil blad');
-      return of(result as T);
-    };
   }
 }

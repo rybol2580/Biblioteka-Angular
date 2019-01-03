@@ -116,29 +116,22 @@ export class BookDetailsComponent implements OnInit {
     
     this.bookService.getBook(id)
       .subscribe(resp => {
-        console.log('wczytana ksiazka: ' + JSON.stringify(resp.body));
         this.book = resp.body;
         this.setItemsValue();
       }, error => {
-        console.log(error);
+        this.toastr.error("Nie udało się poprawnie wczytać danych o wybranej książce. Spróbuj ponownie.");
       });
   }
 
   updateBook(): void {
     //this.reader = this.formGroup.value;
-    //console.log(this.formGroup.value);
     this.bookService.updateBook(this.formGroup.value)
       .subscribe(resp => {
         $("#editBookModal").modal('toggle');
         this.toastr.success('Zmiany zostały zapisane pomyślnie!');
         this.book = this.formGroup.value;
-        console.log('zapisane zmiany ksiazki: ' + this.formGroup.value);
-        console.log(this.formGroup.value);
-        console.log('zapisane zmiany ksiazki -> ksiazka: ' + this.book);
-        console.log(this.book);
       }, error => {
         this.toastr.error('Zapisanie zmian nie powiodło się. Spróbuj ponownie.');
-        console.log(error);
       });
   }
 

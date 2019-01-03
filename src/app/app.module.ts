@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  // gotowe komponenty bootstrap
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
@@ -25,6 +25,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { ReaderReturnedLoansComponent } from './reader-returned-loans/reader-returned-loans.component';
 import { AgmCoreModule } from '@agm/core';
 import { LocationComponent } from './location/location.component';
+import { JWTInterceptor } from './_interceptors/jwt-interceptor';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,11 @@ import { LocationComponent } from './location/location.component';
       //apiKey: 'AIzaSyCq_f1ayazP2DiPHtOCUfK4Ss7lXEV_hLk'
     })
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: JWTInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
