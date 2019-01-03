@@ -58,7 +58,7 @@ import { JWTInterceptor } from './_interceptors/jwt-interceptor';
     NgSelectModule,
     NgxChartsModule,
     AgmCoreModule.forRoot({
-      //apiKey: 'AIzaSyCq_f1ayazP2DiPHtOCUfK4Ss7lXEV_hLk'
+      
     })
   ],
   providers: [{
