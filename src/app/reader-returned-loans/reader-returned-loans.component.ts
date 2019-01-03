@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportBookLoan } from '../entities/reportbookloan';
+import { ReportBookLoan } from '../_models/reportbookloan';
 import { ToastrService } from 'ngx-toastr';
-import { BookLoanService } from '../book-loan.service';
+import { BookLoanService } from '../_services/book-loan.service';
 
 @Component({
   selector: 'app-reader-returned-loans',

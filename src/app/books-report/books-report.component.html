@@ -1,5 +1,5 @@
 <app-loading-spinner *ngIf="!books"></app-loading-spinner>
-<div class="books-report-container">
+<div class="report-container">
   <div *ngIf="books">
     <div class="t-Region">
       <div class="t-Region-header">
@@ -7,14 +7,6 @@
           Lista książek
         </div>
         <div class="t-Region-headerItems--button">
-          <!-- <button type="button" 
-                  class="btn btn-primary"
-                  routerLink="/booksFromNL"
-                  (click)="onCreateFromNLClick()"
-                  data-toggle="modal"
-                  data-target="#createBookFromNLModal">
-            <fa name="plus"></fa> Dodaj z Biblioteki Narodowej
-          </button> -->
           <button type="button" 
                   class="btn btn-primary"
                   routerLink="/booksFromNL">
@@ -35,7 +27,7 @@
             <fa name="search"></fa> Nie znaleziono żadnego egzemplarza książki.
           </span>
         </div>
-        <div *ngIf="books.length > 0" class="books-report-container-inner">
+        <div *ngIf="books.length > 0" class="report-container-inner">
           <div class="table-responsive">
             <table id="bookTable" class="table table-hover">
               <thead>
@@ -74,10 +66,6 @@
     </div>
   </div>
 </div>
-<!-- To nizej to srednie podejscie jest -->
-<button (click)="showPDF()">KLIKNIJ</button>
-<a href="http://localhost:8080/api/report" target="_blank"><button>KLIKNIJ ABY OTWORZYĆ RAPORT</button></a>
-<!-- To wyzej otwiera od razu raport-->
 
 <!-- Add book modal-->
 <div class="modal fade" id="createBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -146,45 +134,3 @@
     </div>
   </div>
 </div>
-
-<!-- SPINNER DO ŁADOWANIA DANYCH
-  <div id="connection-refused-err">
-  teste
-  <fa name="spinner" animation="spin"></fa>
-</div> -->
-
-<!-- Modal Dialog RACZEJ DO WYWALENIA NA TEJ STRONIE
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-            <div class="col-sm-10">
-              <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{reader.lastName}}">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary">Zapisz</button>
-      </div>
-    </div>
-  </div>
-  </div>
-  
-</div>-->

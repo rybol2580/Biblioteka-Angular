@@ -16,7 +16,6 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ReadersReportComponent } from './readers-report/readers-report.component';
 import { BooksReportComponent } from './books-report/books-report.component';
 import { ReaderDetailsComponent } from './reader-details/reader-details.component';
-import { AddReaderModalComponent } from './add-reader-modal/add-reader-modal.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookCopiesComponent } from './book-copies/book-copies.component';
@@ -24,6 +23,8 @@ import { BooksFromNLComponent } from './books-from-nl/books-from-nl.component';
 import { ReaderLoansComponent } from './reader-loans/reader-loans.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { ReaderReturnedLoansComponent } from './reader-returned-loans/reader-returned-loans.component';
+import { AgmCoreModule } from '@agm/core';
+import { LocationComponent } from './location/location.component';
 
 @NgModule({
   declarations: [
@@ -32,14 +33,14 @@ import { ReaderReturnedLoansComponent } from './reader-returned-loans/reader-ret
     ReadersReportComponent,
     BooksReportComponent,
     ReaderDetailsComponent,
-    AddReaderModalComponent,
     LoadingSpinnerComponent,
     BookDetailsComponent,
     BookCopiesComponent,
     BooksFromNLComponent,
     ReaderLoansComponent,
     StatisticsComponent,
-    ReaderReturnedLoansComponent
+    ReaderReturnedLoansComponent,
+    LocationComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +55,10 @@ import { ReaderReturnedLoansComponent } from './reader-returned-loans/reader-ret
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     NgSelectModule,
-    NgxChartsModule
+    NgxChartsModule,
+    AgmCoreModule.forRoot({
+      //apiKey: 'AIzaSyCq_f1ayazP2DiPHtOCUfK4Ss7lXEV_hLk'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

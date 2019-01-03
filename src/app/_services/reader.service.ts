@@ -3,12 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Reader } from './entities/reader';
-
-const httpOptions = {
-  headers: new HttpHeaders({'Content-Type':'application/json'}),
-  observe: 'response'
-};
+import { Reader } from '../_models/reader';
 
 @Injectable({
   providedIn: 'root'

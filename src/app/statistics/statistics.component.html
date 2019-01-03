@@ -1,3 +1,78 @@
+<app-loading-spinner *ngIf="!top10Data"></app-loading-spinner>
+<div class="report-container">
+  <div *ngIf="top10Data">
+    <div class="t-Region">
+      <div class="t-Region-header">
+        <div class="t-Region-headerItems--title">
+          Top 10 najaktywniejszych czytelników w 2018 roku
+        </div>
+        <div class="t-Region-headerItems--button">
+          <a href="http://localhost:8080/api/reports" target="_blank">
+            <button type="button" 
+                    class="btn btn-primary">
+              <fa name="pdf"></fa> Otwórz raport w formie PDF
+            </button>
+          </a>
+        </div>
+      </div>
+      <div class=t-Region-body>
+        <div *ngIf="top10Data.length > 0" class="report-container-inner">
+          <div class="table-responsive">
+            <table id="bookTable" class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Numer karty</th>
+                  <th scope="col">Imię i nazwisko</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Telefon</th>
+                  <th scope="col">Wypożyczenia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let reader of top10Data; index as i">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>{{reader.cardNumber}}</td>
+                  <td>{{reader.fullName}}</td>
+                  <td>{{reader.email}}</td>
+                  <td>{{reader.phone}}</td>
+                  <td>{{reader.bookLoansAmount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="report-container">
+    <div *ngIf="top10Data">
+      <div class="t-Region">
+        <div class="t-Region-header">
+          <div class="t-Region-headerItems--title">
+            Liczba wypożyczeń w zależności od gatunku książki
+          </div>
+        </div>
+        <div class=t-Region-body>
+          <ngx-charts-pie-chart
+            [view]="view" 
+            [scheme]="colorScheme"
+            [results]="bookLoansByGenreData"
+            [trimLabels]="trimLabels"
+            [legendTitle]="legendTitle"
+            [maxLabelLength]="maxLabelLength"
+            [gradient]="gradient"
+            [legend]="showLegend">
+          </ngx-charts-pie-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- 
 <ngx-charts-bar-vertical
   [view]="view"
   [scheme]="colorScheme"
@@ -11,4 +86,4 @@
   [xAxisLabel]="xAxisLabel"
   [yAxisLabel]="yAxisLabel"
   (select)="onSelect($event)">
-</ngx-charts-bar-vertical>
+</ngx-charts-bar-vertical> -->

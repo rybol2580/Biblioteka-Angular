@@ -6,4 +6,5 @@ export class Librarian {
   birthday: string;
   phone: string;
   email: string;
+  token: string;
 };

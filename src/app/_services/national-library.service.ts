@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Reader } from './entities/reader';
-import { Book } from './entities/book';
+import { Reader } from '../_models/reader';
+import { Book } from '../_models/book';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type':'application/json'}),

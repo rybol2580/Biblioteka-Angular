@@ -6,8 +6,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorMessage} from "ng-bootstrap-form-validation";
 import { ToastrService } from 'ngx-toastr';
 
-import { Reader } from '../entities/reader';
-import { ReaderService } from '../reader.service';
+import { Reader } from '../_models/reader';
+import { ReaderService } from '../_services/reader.service';
 import { Location } from '@angular/common';
 import { first } from 'rxjs/operators';
 import { AngularFontAwesomeComponent } from 'angular-font-awesome';
@@ -48,6 +48,15 @@ export class ReaderDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getReader();
+    $(document).ready(function() {
+      var navLink = $('.nav-link')[1];
+      $('.nav-link').each(function(this) {
+        $(this).removeClass('active');
+      });
+      $(navLink).addClass('active');
+    });
+   
+    
 
     // Definicja form groups
     this.formGroup = new FormGroup({
@@ -93,16 +102,9 @@ export class ReaderDetailsComponent implements OnInit {
     this.readerService.getReader(id)
       .subscribe(resp => {
         this.reader = resp.body;
-        console.log('reader na poczatku: ' + this.reader.readerId);
         this.setItemsValue();
-        if (resp.status > 300) {
-          console.log('blaad jest');
-        } else {
-          this.status = resp.status;
-        }
       }, error => {
-        console.log('test');
-        console.log(error);
+        this.toastr.error("Nie udało się wczytać danych o wybranym czytelniku. Spróbuj ponownie.")
       });
   }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NationalLibraryService } from '../national-library.service';
+import { NationalLibraryService } from '../_services/national-library.service';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
-import { BookService } from '../book.service';
+import { BookService } from '../_services/book.service';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 declare var $ : any;
@@ -47,6 +47,13 @@ export class BooksFromNLComponent implements OnInit {
 
   ngOnInit() {
     $("#loading-spinner").hide();
+    $(document).ready(function() {
+      var navLink = $('.nav-link')[0];
+      $('.nav-link').each(function(this) {
+        $(this).removeClass('active');
+      });
+      $(navLink).addClass('active');
+    });
 
     this.formGroup = new FormGroup({
       isbn: new FormControl('', [

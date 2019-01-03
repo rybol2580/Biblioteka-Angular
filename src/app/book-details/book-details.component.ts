@@ -6,12 +6,12 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorMessage} from "ng-bootstrap-form-validation";
 import { ToastrService } from 'ngx-toastr';
 
-import { Book } from '../entities/book';
-import { BookService } from '../book.service';
+import { Book } from '../_models/book';
+import { BookService } from '../_services/book.service';
 import { Location } from '@angular/common';
 import { first } from 'rxjs/operators';
 import { AngularFontAwesomeComponent } from 'angular-font-awesome';
-import { BookCopy } from '../entities/bookcopy';
+import { BookCopy } from '../_models/bookcopy';
 
 @Component({
   selector: 'app-book-details',
@@ -48,6 +48,14 @@ export class BookDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getBook();
+
+    $(document).ready(function() {
+      var navLink = $('.nav-link')[0];
+      $('.nav-link').each(function(this) {
+        $(this).removeClass('active');
+      });
+      $(navLink).addClass('active');
+    });
 
     // Definicja form groups
     this.formGroup = new FormGroup({

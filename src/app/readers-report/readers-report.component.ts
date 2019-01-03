@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Reader } from '../entities/reader';
-import { ReaderService } from '../reader.service';
-import { ReportService } from '../report.service';
+import { Reader } from '../_models/reader';
+import { ReaderService } from '../_services/reader.service';
+import { ReportService } from '../_services/report.service';
 import * as $ from 'jquery';
 
 // dodane
@@ -45,6 +45,13 @@ export class ReadersReportComponent implements OnInit {
 
   ngOnInit() {
     this.getReaders();
+    $(document).ready(function() {
+      var navLink = $('.nav-link')[1];
+      $('.nav-link').each(function(this) {
+        $(this).removeClass('active');
+      });
+      $(navLink).addClass('active');
+    });
 
     this.formGroup = new FormGroup({
       cardNumber: new FormControl('', [
@@ -89,8 +96,8 @@ export class ReadersReportComponent implements OnInit {
         //$("#connection-refused-err").hide();
         this.readers = resp.body;
       }, error => {
-        $("#loadingSpinner").hide();
-        console.log(error);
+        this.toastr.error("Nie udało się załadować listy czytelników. Spróbuj ponownie.");
+        $("#loading-spinner").hide();
       });
   }
 

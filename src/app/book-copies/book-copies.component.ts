@@ -1,16 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BookCopy } from '../entities/bookcopy';
-import { BookCopyService } from '../book-copy.service';
+import { BookCopy } from '../_models/bookcopy';
+import { BookCopyService } from '../_services/book-copy.service';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 declare var $ : any;
 import { ToastrService } from 'ngx-toastr';
-import { ReaderService } from '../reader.service';
+import { ReaderService } from '../_services/reader.service';
 import { formatDate } from '@angular/common';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
-import { BookLoanService } from '../book-loan.service';
-import { BookLoan } from '../entities/bookloan';
+import { BookLoanService } from '../_services/book-loan.service';
+import { BookLoan } from '../_models/bookloan';
 
 @Component({
   selector: 'app-book-copies',
@@ -197,6 +197,7 @@ export class BookCopiesComponent implements OnInit {
         this.getBookCopies();
       }, error => {
         this.toastr.error('Wypożyczenie egzemplarza nie powiodło się. Spróbuj ponownie.');
+        console.log(error);
       });
   }
 

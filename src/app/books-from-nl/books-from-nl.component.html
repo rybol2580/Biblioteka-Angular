@@ -23,7 +23,7 @@
   </div>
   <hr>
 </div>
-<div class="books-report-container">
+<div class="report-container">
   <div *ngIf="foundBooks">
     <div class="t-Region">
       <div class="t-Region-header">
@@ -38,7 +38,7 @@
           </span>
         </div>
         <app-loading-spinner id="loading-spinner"></app-loading-spinner>
-        <div *ngIf="foundBooks.length > 0" class="books-report-container-inner">
+        <div *ngIf="foundBooks.length > 0" class="report-container-inner">
           <div class="table-responsive">
             <table *ngIf="foundBooks" id="bookTable" class="table table-hover">
               <thead>

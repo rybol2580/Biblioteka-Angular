@@ -24,11 +24,17 @@ span.loggedAs {
   }
 }
 
-
 .container-fluid {
   width: 100%;
   padding-right: 30px;
   padding-left: 30px;
   margin-right: auto;
   margin-left: auto;
+}
+
+.active {
+  font-weight: 800;
+}
+.nav-item:hover {
+  background-color: rgba(0,0,0,.1);
 }

@@ -1,5 +1,5 @@
-<app-loading-spinner id="loadingSpinner" *ngIf="!readers"></app-loading-spinner>
-<div class="readers-report-container">
+<app-loading-spinner *ngIf="!readers"></app-loading-spinner>
+<div class="report-container">
   <div *ngIf="readers">
     <div class="t-Region">
       <div class="t-Region-header">
@@ -22,7 +22,7 @@
             <fa name="search"></fa> Nie znaleziono żadnego czytelnika.
           </span>
         </div>
-        <div *ngIf="readers.length > 0" class="readers-report-container-inner">
+        <div *ngIf="readers.length > 0" class="report-container-inner">
           <div class="table-responsive">
             <table id="readersTable" class="table table-hover">
               <thead>
@@ -56,12 +56,7 @@
     </div>
   </div>
 </div>
-<!-- To nizej to srednie podejscie jest -->
-<button (click)="showPDF()">KLIKNIJ</button>
-<a href="http://localhost:8080/api/report" target="_blank"><button>KLIKNIJ ABY OTWORZYĆ RAPORT</button></a>
-<!-- To wyzej otwiera od razu raport-->
 
-<!-- <app-add-reader-modal></app-add-reader-modal> -->
 <div class="modal fade" id="createReaderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -136,45 +131,3 @@
     </div>
   </div>
 </div>
-
-<!-- SPINNER DO ŁADOWANIA DANYCH
-  <div id="connection-refused-err">
-  teste
-  <fa name="spinner" animation="spin"></fa>
-</div> -->
-
-<!-- Modal Dialog RACZEJ DO WYWALENIA NA TEJ STRONIE
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-            <div class="col-sm-10">
-              <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{reader.lastName}}">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary">Zapisz</button>
-      </div>
-    </div>
-  </div>
-  </div>
-  
-</div>-->

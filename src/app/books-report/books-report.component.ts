@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../entities/book';
-import { BookService } from '../book.service';
-import { ReportService } from '../report.service';
+import { Book } from '../_models/book';
+import { BookService } from '../_services/book.service';
+import { ReportService } from '../_services/report.service';
 import * as $ from 'jquery';
 
 // dodane
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { NationalLibraryService } from '../national-library.service';
+import { NationalLibraryService } from '../_services/national-library.service';
 
 @Component({
   selector: 'app-books-report',
@@ -52,6 +52,13 @@ export class BooksReportComponent implements OnInit {
 
   ngOnInit() {
     this.getBooks();
+    $(document).ready(function() {
+      var navLink = $('.nav-link')[0];
+      $('.nav-link').each(function(this) {
+        $(this).removeClass('active');
+      });
+      $(navLink).addClass('active');
+    });
 
     this.formGroup = new FormGroup({
       isbn: new FormControl('', [
@@ -101,11 +108,11 @@ export class BooksReportComponent implements OnInit {
   getBooks(): void {
     this.bookService.getBooks()
       .subscribe(resp => {
-        //console.log('Ksiazki wczytane z bazy: ' + JSON.stringify(resp.body));
         this.books = resp.body;
       }, error => {
         //console.log($("#connection-refused-err").show());
-        console.log(error);
+        this.toastr.error("Nie udało się załadować listy książek. Spróbuj ponownie.");
+        $("#loading-spinner").hide();
       });
   }
 
@@ -129,21 +136,4 @@ export class BooksReportComponent implements OnInit {
     this.searchFormGroup.reset();
     $("#formBody").hide();
   }
-
-//   public showPDF(): void {
-//     this.reportService.getPDF()
-//         .subscribe(resp => {
-//           //var blob = new Blob([resp.body], {type: 'application/pdf'});
-        
-//           // var downloadURL = window.URL.createObjectURL(resp.body);
-//           // var link = document.createElement('a');
-//           // link.href = downloadURL;
-//           // link.download = "help.pdf";
-//           // link.click();
-//           this.toastr.success('Raport został pobrany pomyślnie!');
-//         }, error => {
-//           this.toastr.success('Nie udało się pobrać raportu. Spróbuj ponownie.');
-//         });
-// }
-
 }

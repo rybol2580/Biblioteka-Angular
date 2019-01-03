@@ -2,7 +2,7 @@
 -->
 <!--<app-login-page></app-login-page>-->
 <!--<app-reader-report></app-reader-report>-->
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+<nav class="navbar navbar-expand-lg navbar-light bg-primary" *ngIf="currentLibrarian">
   <a class="navbar-brand" href="#">
     Biblioteka
   </a>
@@ -18,12 +18,15 @@
         <a class="nav-link" routerLink="/readers">Czytelnicy</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" routerLink="/statistics">Statystyki</a>
-        </li>
+        <a class="nav-link" routerLink="/statistics">Statystyki</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/location">Lokalizacja</a>
+      </li>
     </ul>
     <div>
-        <span class="loggedAs">Zalogowany jako XXX XXX</span>
-        <button class="btn btn-primary" type="submit">Wyloguj</button>
+        <span class="loggedAs">Zalogowany jako {{currentLibrarian.firstName}} {{currentLibrarian.lastName}}</span>
+        <button class="btn btn-primary" type="submit" (click)="logout()">Wyloguj</button>
     </div>
     <!--<span class="loggedAs">Zalogowany jako XXX XXX</span>
     <button class="btn btn-primary" type="submit">Logout</button>-->
